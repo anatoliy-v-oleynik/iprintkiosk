@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--XML Border Description-->
+<borders size="40">
+  <border>
+    <enabled>False</enabled>
+    <name><![CDATA[elegant]]></name>
+    <horizontal>
+      <path>border-h.png</path>
+      <width>1800</width>
+      <height>1200</height>
+      <alpha x="310" y="150" width="1180" height="898" rotation="0" />
+    </horizontal>
+    <vertical>
+      <path>border-v.png</path>
+      <width>1200</width>
+      <height>1800</height>
+      <alpha x="150" y="310" width="898" height="1180" rotation="0" />
+    </vertical>
+  </border>
+  <border>
+    <enabled>False</enabled>
+    <name><![CDATA[plain white]]></name>
+    <horizontal>
+      <path>border-h.png</path>
+      <width>1800</width>
+      <height>1200</height>
+      <alpha x="150" y="150" width="1502" height="902" rotation="0" />
+    </horizontal>
+    <vertical>
+      <path>border-v.png</path>
+      <width>1200</width>
+      <height>1800</height>
+      <alpha x="150" y="150" width="902" height="1502" rotation="0" />
+    </vertical>
+  </border>
+  <border>
+    <enabled>False</enabled>
+    <name><![CDATA[ribbons lace]]></name>
+    <horizontal>
+      <path>border-h.png</path>
+      <width>1800</width>
+      <height>1200</height>
+      <alpha x="236" y="124" width="1322" height="950" rotation="0" />
+    </horizontal>
+    <vertical>
+      <path>border-v.png</path>
+      <width>1200</width>
+      <height>1800</height>
+      <alpha x="124" y="236" width="950" height="1322" rotation="0" />
+    </vertical>
+  </border>
+</borders>

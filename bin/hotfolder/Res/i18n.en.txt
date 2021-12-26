@@ -1,0 +1,164 @@
+﻿[MAIN_WINDOW]
+Description=Hot Folder Print
+Printers=Printers
+PrinterStatus=Printer Status
+
+[BUTTON_TEXT]
+Okay=OK
+
+[PRINTER_INFO]
+Printer=Printer:
+Status=Status:
+Sheets=Sheets Remaining:
+SerialNumber=Serial Number:
+Firmware=Firmware:
+CVD=CVD:
+MediaType=Media Type:
+LifeCounter=Life Counter:
+HeadTemp=Head Temp °C:
+Humidity=Humidity %:
+MatCounter=Matte Counter:
+ICMFile=ICM File:
+
+[PROC_STATUS]
+Initializing=Initializing
+Running=Running
+NoPrinter=No Printers Found
+Paused=Paused
+ShuttingDown=Shutting Down
+
+[PrintSizes]
+s3_5x5=3.5x5
+s4x4=4x4
+s4x5=4x5
+s4x53=4x5.3
+s4x6=4x6
+s2x6=2x6
+s4x7=4x7
+s4x8=4x8
+s4x10=4x10
+s4x12=4x12
+s5x5=5x5
+s5x7=5x7
+s6x45=6x4.5
+s6x8=6x8
+s6x9=6x9
+s8x8=8x8
+s8x10=8x10
+s8x12=8x12
+s8x10D = 8x10D
+s8x10_50D = 8x10.5D
+s8x10_75D = 8x10.75D
+s8x12D = 8x12D
+s8x4x3D = 8x4 x3D
+s8x6x2D = 8x6 x2D
+
+[ADMIN]
+TabSystem=System
+TabBorders=Borders
+ArchiveImages=Archive Images
+ArchiveImagesChecked=Yes
+ArchiveImagesUnChecked=No
+StartMinimized=Start Minimized
+StartMinimizedChecked=Yes
+StartMinimizedUnChecked=No
+ColorScience=Auto Correct
+ColorScienceChecked=On
+ColorScienceUnChecked=Off
+DragDropMode=Drag Drop Mode
+DragDropModeChecked=On
+DragDropModeUnChecked=Off
+Revert=Revert
+SaveAndExit=Save & Exit
+SaveAndExitToDesktop=Save & Exit To Desktop
+PrintCopies=Prints
+FinishType=Finish Type
+Resolution=Resolution
+MinPaperLeftForError=Minimum Prints Remaining - Error
+MinPaperLeftForWarning=Minimum Prints Remaining - Warning
+Settings=Settings
+
+[PRINTING]
+Printing=Printing
+PrintSize=Print Size
+FindImages=Find Image(s)
+Print=Print
+Title=Prints
+PleaseWait=Working, Please wait...
+
+[ADJUSTCOLOR]
+ColorAdjustment=Colors
+UseICM=Use ICM
+UseAutoColor=Use Auto Color Correction
+SyncChannels=Sync Channels
+Red=Red
+Green=Green
+Blue=Blue
+Chroma=Saturation
+Sharp=Sharp
+Apply=Apply
+Brightness=Brightness
+Gamma=Gamma
+Contrast=Contrast
+RGB=RGB
+ResetAllColor=Reset All Colors
+
+[BORDER_MGMT]
+SelectPrintSize=Select Print Size
+Enabled=Enabled
+DeleteMSG=You are about to delete {0},\n are you sure you want to continue?
+DeleteTitle=Deleting Border
+Import=Import Border
+Edit=Edit
+Delete=Delete
+Borders=Borders
+
+[BORDER_IMPORT]
+Horizontal=Horizontal
+Vertical=Vertical
+LoadHorizontal=Load Horizontal
+LoadVertical=Load Vertical
+BorderName=Border Name
+Cancel=Cancel
+Ok=OK
+Title=Borders
+
+[BORDER_IMPORT_MSG]
+UniqueName=A unique border name is required
+HorizontalRequired=A horizontal border must be supplied to continue
+VerticalRequired=A vertical border must be supplied to continue
+
+[COLORADJUST]
+TabColorAdjust=Color Adjust
+R=R
+G=G
+B=B
+
+[ICM]
+ICM=ICM
+PrinterType=Printer Type
+AssignICM=Assign New ICM
+ResetAllICM=Reset All ICMs
+
+[LOGGING]
+Logging=Logging
+UserKey=User ID
+UseOnlineLogging=Use Online Logging
+ServerIP=Server IP Address
+ServerPort=Server Port
+Apply=Apply
+
+[ERROR_MESSAGES]
+UnsupportedPrinterTitle=Error: Unsupported Device Detected
+UnsupportedPrinter=Thank you for using DNP’s Hot Folder Print utility. Hot Folder Print has detected an unsupported printer and is unable to send images to print on this device. Please consult the user guide for a list of supported printers. Thank you.
+
+[ABOUT]
+About=About
+CompanyName=DNP Hot Folder Print version
+Version=version
+Copyright=Copyright © 2014 DNP Imagingcomm America Corporation. All rights Reserved
+Update=Check For Updates
+
+[FILENOTFOUND]
+Missing=missing
+Ok=Ok

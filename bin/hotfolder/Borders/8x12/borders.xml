@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--XML Border Description-->
+<borders size="130">
+  <border>
+    <enabled>False</enabled>
+    <name><![CDATA[plain white]]></name>
+    <horizontal>
+      <path>border-h.png</path>
+      <width>3600</width>
+      <height>2400</height>
+      <alpha x="150" y="150" width="3306" height="2106" rotation="0" />
+    </horizontal>
+    <vertical>
+      <path>border-v.png</path>
+      <width>2400</width>
+      <height>3600</height>
+      <alpha x="150" y="150" width="2106" height="3306" rotation="0" />
+    </vertical>
+  </border>
+</borders>

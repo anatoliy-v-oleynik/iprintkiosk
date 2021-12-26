@@ -1,0 +1,644 @@
+<?XML version="1.0"?>
+<package>
+	<?component error="True" debug="True"?>
+
+	<component id="PosDevices.CardReader">
+		<registration
+			description="PosDevices CardReader v1.0"
+			progid="PosDevices.CardReader"
+			classid="{34e7390f-85fb-4abd-a29c-b326834565ba}"
+			version="1.00"
+			remotable="False"
+			/>
+			
+		<public>
+		
+			<property name="Enable">
+				<get/>
+				<put/>
+			</property>
+			
+			<method name="FirmwareInfo">
+				<parameter name="Model"/>
+				<parameter name="SerialNumber"/>
+				<parameter name="AppVersion"/>
+			</method>			
+	
+			<method name="VendRequest">
+				<parameter name="ItemPrice"/>
+			</method>
+	
+			<method name="VendSuccess">
+			</method>	
+	
+			<method name="VendCancel">
+			</method>
+	
+			<method name="VendFailure">
+			</method>
+	
+			<method name="SessionComplete">
+			</method>	
+	
+			<event name="OnData"/>
+			<event name="OnError"/>
+			<event name="OnVendApproved"/>
+			<event name="OnVendDenied"/>
+			<event name="OnBeginSession"/>
+			<event name="OnEndSession"/>
+			
+		</public>
+
+		<object id="fso" progid="Scripting.FileSystemObject" events="False"/>
+		
+		<script language="VBScript">
+		<![CDATA[
+
+			Dim handler
+			Dim m_protocol : m_protocol = "MARCHAL"
+			Dim m_port : m_port = 4		
+		
+			Set handler = GetObject("script:" & fso.BuildPath(fso.GetAbsolutePathname(".\"), "marchal.wsc") & "#PosDevices." & m_protocol)
+			If (Err.Number <> 0) Then fireError Err.Number, Err.Description
+			handler.RegisterCallback "OnData", GetRef("OnData")
+			handler.RegisterCallback "OnError", GetRef("OnError")
+			handler.RegisterCallback "OnVendApproved", GetRef("OnVendApproved")
+			handler.RegisterCallback "OnVendDenied", GetRef("OnVendDenied")
+			handler.RegisterCallback "OnBeginSession", GetRef("OnBeginSession")
+			handler.RegisterCallback "OnEndSession", GetRef("OnEndSession")		
+		
+			Private Sub OnError(msg)
+				fireEvent "OnError", msg
+			End Sub		
+		
+			Private Sub OnData(data)
+				fireEvent "OnData", data
+			End Sub
+		
+			Private Sub OnVendApproved()
+				fireEvent "OnVendApproved"
+			End Sub
+		
+			Private Sub OnVendDenied()
+				fireEvent "OnVendDenied"
+			End Sub		
+		
+			Private Sub OnBeginSession()
+				fireEvent "OnBeginSession"
+			End Sub				
+		
+			Private Sub OnEndSession()
+				fireEvent "OnEndSession"
+			End Sub		
+		
+			Function get_Enable()
+				get_Enable = handler.IsOpened
+			End Function
+			
+			Function put_Enable(ByVal value)
+			
+				If value = handler.IsOpened Then
+					Exit Function
+				End If
+				
+				If (value = True) Then
+				
+					If m_port > 0 Then
+						handler.OpenPort(m_port)
+					End If
+				Else
+					handler.ClosePort()
+				End If
+				
+			End Function
+			
+			Sub FirmwareInfo(Model, SerialNumber, AppVersion)
+				Call handler.FirmwareInfo(Model, SerialNumber, AppVersion)
+			End Sub
+			
+			Sub VendRequest(ItemPrice)
+				Call handler.VendRequest(ItemPrice)
+			End Sub
+			
+			Sub VendSuccess()
+				Call handler.VendSuccess()
+			End Sub
+			
+			Sub VendCancel()
+				Call handler.VendCancel()
+			End Sub
+			
+			Sub VendFailure()
+				Call handler.VendFailure()
+			End Sub
+			
+			Sub SessionComplete()
+				Call handler.SessionComplete()
+			End Sub
+		
+		]]>
+		</script>		
+	
+	</component>
+	
+	<component id="PosDevices.MARCHAL">
+		<registration
+			description="PosDevices MARCHAL v1.0"
+			progid="PosDevices.MARCHAL"
+			classid="{aae05706-a1cb-4dd6-89c5-260dbfa67c93}"
+			version="1.00"
+			remotable="False"
+			/>
+			
+		<public>
+		
+			<method name="OpenPort">
+				<parameter name="port"/>
+			</method>
+			
+			<method name="ClosePort">
+			</method>			
+			
+			<property name="IsOpened">
+				<get/>
+			</property>		
+			
+			<method name="FirmwareInfo">
+				<parameter name="Model"/>
+				<parameter name="SerialNumber"/>
+				<parameter name="AppVersion"/>
+			</method>			
+			
+			
+			<method name="VendRequest">
+				<parameter name="ItemPrice"/>
+			</method>			
+			
+			<method name="VendCancel">
+			</method>			
+			
+			<method name="VendSuccess">
+			</method>
+			
+			<method name="VendFailure">
+			</method>	
+			
+			<method name="SessionComplete">
+			</method>				
+			
+			<method name="MDB">
+				<parameter name="cmd"/>
+				<parameter name="data"/>
+			</method>				
+			
+			<method name="RegisterCallback">
+				<parameter name="name"/>
+				<parameter name="ref"/>
+			</method>			
+			
+		</public>
+
+		<object id="callbacks" progid="Scripting.Dictionary" events="False"/>
+
+		<object id="sink" progid="WbemScripting.SWbemSink" events="True"/>
+		<reference object="WbemScripting.SWbemSink"/>
+		
+		<object id="mscomm" progid="MSCOMMLib.MSComm.1" events="True"/>
+		<reference object="MSCOMMLib.MSComm.1"/>
+		
+		<script language="VBScript">
+		<![CDATA[
+
+			Dim wmi : set wmi = GetObject("winmgmts:"&"{impersonationLevel=impersonate}!\\.\root\cimv2")
+
+			Sub sink_OnObjectReady(objObject, objAsyncContext)
+				KeepAlive()
+			End Sub
+			
+			Dim m_pid, m_buffer, m_config, m_request, m_session, m_reset_counter
+			m_reset_counter = 0
+		
+			Sub mscomm_OnComm()
+				Select Case mscomm.CommEvent
+					Case comEvSend
+					Case comEvReceive
+						Dim bytes : bytes = CArray(mscomm.Input)
+						
+						ReDim Preserve m_buffer(UBound(m_buffer)+UBound(bytes)+1)
+						For i = LBound(bytes) to UBound(bytes)
+							m_buffer(UBound(m_buffer)-UBound(bytes) + i) = bytes(i)
+						Next
+						
+						Dim repeat : repeat = False
+						Do
+							Call callbacks.Item("OnData")("Текущий буфер " & UBound(m_buffer)+1 & " байт :0x" & BytesToHexStr(m_buffer))
+							Dim blen : blen = UBound(m_buffer)+1
+							If (blen >= 11) Then
+							
+								Dim plen : plen = LeftShift(m_buffer(1) and &HFFFF, 8) OR (m_buffer(0) and &HFFFF)
+								
+								If (blen >= plen+2) Then
+									
+									Dim crc16 : crc16 = CRC16_CCITT_1021(m_buffer, plen)
+									if ((crc16 And &HFF&) = m_buffer(plen)) And ((crc16 \ &H100 And &HFF&) = m_buffer(plen+1)) Then
+										Dim temp_buffer : temp_buffer = Array()
+										ReDim temp_buffer(UBound(m_buffer))
+									
+										For index = LBound(temp_buffer) to UBound(temp_buffer)
+											temp_buffer(index) = m_buffer(index)
+										Next
+									
+										Dim answer : answer = Array()
+										ReDim answer(plen+1)
+										For index = LBound(answer) to UBound(answer)
+											answer(index) = temp_buffer(index)
+										Next
+									
+										If (UBound(temp_buffer) - UBound(answer)) > 0 Then
+											ReDim m_buffer(UBound(temp_buffer) - UBound(answer)-1)
+											For index = LBound(m_buffer) to UBound(m_buffer)
+												m_buffer(index) = temp_buffer(index+UBound(answer)+1)
+											Next
+											repeat = True
+										Else
+											ReDim m_buffer(-1)
+											repeat = False
+										End If
+									
+										Select Case answer(8)
+											Case &H80
+												Select Case answer(9)
+													Case &H03
+														Call sink.Cancel()
+														callbacks.Item("OnData")("###Begin Session - ПЕРЕШЛИ НА ШАГ ОПЛАТЫ")
+														callbacks.Item("OnBeginSession")()
+														Call SendPacket(&H00, Array(&H00), answer(3), &H00)
+														Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+													Case &H04
+														Call sink.Cancel()
+														callbacks.Item("OnData")("###Session Cancel")
+														Call SendPacket(&H00, Array(&H00), answer(3), &H00)
+														Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+													Case &H05
+														Call sink.Cancel()
+														callbacks.Item("OnData")("###Vend Approved - ОПЛАТА ОДОБРЕНА")
+														callbacks.Item("OnVendApproved")()
+														Call SendPacket(&H00, Array(&H00), answer(3), &H00)
+														Call SendPacket(&H80, Array(&H13, &H02, &HFF, &HFF), Null, &H00)
+														Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+													Case &H06
+														Call sink.Cancel()
+														callbacks.Item("OnData")("###Vend Denied - ОТКАЗАННО В ОПЛАТЕ")
+														callbacks.Item("OnVendDenied")()
+														Call SendPacket(&H00, Array(&H00), answer(3), &H00)
+														Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+													Case &H07
+														Call sink.Cancel()
+														callbacks.Item("OnData")("###End Session - ВОЗВРАТ НА ШАГ ВЫБОРА ФОТО")
+														callbacks.Item("OnEndSession")()
+														Call SendPacket(&H00, Array(&H00), answer(3), &H00)
+														Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+												End Select
+											Case &H0A
+												callbacks.Item("OnData")("Transfer specific data")
+											Case &H0B
+												Call sink.Cancel()
+												Select Case answer(9)
+													Case &H00 callbacks.Item("OnData")("###Status message - Unexpected error")
+													Case &H01 callbacks.Item("OnData")("###Status message - Timeout: any process timeout ")
+													Case &H02 callbacks.Item("OnData")("###Status message - Out of sequence: Received out of sequence command")
+													Case &H03 callbacks.Item("OnData")("###Status message - Pending 3rd party communication data received")
+													Case &H04 callbacks.Item("OnData")("###Status message - Settlement status (a response for close session command in multi session mode)")
+													Case Else callbacks.Item("OnData")("###Status message - неопределено")
+												End Select
+												Call SendPacket(&H00, Array(&H00), answer(3), &H00)
+												Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+											Case &H00
+												'callbacks.Item("OnData")("Response")
+											Case &H01
+												callbacks.Item("OnData")("Reset")
+												Call sink.Cancel()
+												If m_reset_counter < 3 Then 
+													Call FirmwareInfo("Model_31884", "Serial_7222", "Simulator_Ver_00_15")
+												Else
+													callbacks.Item("OnError")("Превышено количество сбросов")
+												End If
+												m_reset_counter = m_reset_counter + 1
+											Case &H06
+												callbacks.Item("OnData")("Config")
+												m_config = answer
+												Call SendPacket(&H80, Array(&H14, &H01), Null, &H00)
+												Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+												
+										End Select	
+									Else
+										Call callbacks.Item("OnError")("Неверная контрольная сумма " & UBound(answer)+1 & " байт :0x" & BytesToHexStr(answer))
+									End If
+								Else
+									repeat = False
+								End If
+							Else
+								repeat = False
+							End If
+						Loop While repeat
+						
+					Case comEvCTS
+					Case comEvDSR
+					Case comEvCD
+					Case comEvRing
+					Case comEvEOF
+					Case Else
+				End Select
+				
+			End Sub
+			
+			Function CArray(ByVal value)
+				Dim result()
+				ReDim Preserve result(LenB(value)-1)
+				For i = 1 to LenB(value)
+					result(i-1) = AscB(MidB(value, i, 1))
+				Next
+				CArray = result
+			End Function
+		
+			Function BytesToHexStr(ByVal bytes)
+				If IsArray(bytes) Then 
+					If (UBound(bytes) - LBound(bytes) > 0) Then
+						For j = LBound(bytes) to UBound(bytes) 
+							BytesToHexStr = BytesToHexStr & Right("0" & Hex(bytes(j)), 2) 
+						next
+					End If
+				Else
+					BytesToHexStr = ""
+				End If
+			End Function 
+		
+			Function LeftShift(pValue, pShift)
+				LeftShift = pValue * (2 ^ pShift)
+			End Function
+		
+			Function RightShift(pValue, pShift)
+				Dim NewValue, PrevValue, i
+				PrevValue = pValue
+				For i = 1 to pShift
+					Select Case VarType(pValue)
+						Case vbLong
+							NewValue = Int((PrevValue And "&H7FFFFFFF") / 2)
+							If PrevValue And "&H80000000" Then NewValue = NewValue Or "&H40000000"
+							NewValue = CLng(NewValue)
+						Case vbInteger
+							NewValue = Int((PrevValue And "&H7FFF") / 2)
+							If PrevValue And "&H8000" Then NewValue = NewValue Or "&H4000"
+							NewValue = CInt(NewValue)
+						Case vbByte
+							NewValue = CByte(PrevValue / 2)
+						Case Else: Err.Raise 13 ' Not a supported type
+					End Select
+					PrevValue = NewValue
+				Next
+				RightShift = PrevValue
+			End Function		
+		
+			Function StrToHex(strString)
+				Dim result
+				result = ""
+				
+				For i=1 To LenB(strString)
+					result = result + Right("00" & Hex(AscB(MidB(strString,i,1))), 2)
+				Next
+				
+				StrToHex = result
+			End Function
+		
+			Function bMask(pBit)
+				If pBit < 32 Then bMask = 2 ^ (pBit - 1) Else bMask = "&H80000000"
+			End Function		
+		
+			Function Dec2Bin(pValue)
+				Dim TotalBits, i
+				Select Case VarType(pValue)
+					Case vbLong: TotalBits = 32
+					Case vbInteger: TotalBits = 16
+					Case vbByte: TotalBits = 8
+					Case Else: Err.Raise 13 ' Not a supported type
+				End Select
+				For i = TotalBits to 1 Step -1
+					If pValue And bMask(i) Then Dec2Bin = Dec2Bin + "1" Else Dec2Bin = Dec2Bin + "0"
+				Next
+			End Function		
+		
+			Function GetBit(pValue, pBit)
+				 Dim BitMask
+				 If pBit > 32 Then Err.Raise 6 ' Overflow (Bit number too high)
+				 If pBit < 32 Then BitMask = 2 ^ (pBit - 1) Else BitMask = "&H80000000"
+				 GetBit = CBool(pValue AND BitMask)
+			End Function
+		
+			Function CRC16_CCITT_08408(ByVal bytes, ByVal len)
+				Dim result, TmpCRC, i, j
+				result = &H0000&
+				For i = 0 to len-1
+					TmpCRC = result Xor bytes(i)
+					For j = 0 to 7
+						If (TmpCRC And &H0001&) <> 0 Then
+							TmpCRC = RightShift(TmpCRC, 1)
+							TmpCRC = TmpCRC Xor &H08408&
+						Else
+							TmpCRC = RightShift(TmpCRC, 1)
+						End If
+					Next
+					result = TmpCRC
+				Next
+				
+				GetCRC16 = result
+			End Function			
+			
+			Function CRC16_CCITT_1021(ByVal bytes, ByVal len)
+				Dim Temp, CRC, i, j
+				
+				For i = 0 To len-1
+					Temp = bytes(i) * &H100&
+					CRC = CRC Xor Temp
+					For j = 0 To 7
+						If (CRC And &H8000&) Then
+							CRC = ((CRC * 2) Xor &H1021&) And &HFFFF&
+						Else
+							CRC = (CRC * 2) And &HFFFF&
+						End If
+					Next
+				Next
+				CRC16_CCITT_1021 = CRC And &HFFFF&
+			End Function
+			
+			Sub SendPacket(command, ByRef data(), pid, opt)
+
+				If (mscomm.PortOpen <> True) Then
+					Exit Sub
+				End If
+			
+				Dim pack, bytes, b, i, j, crc16, plen, popt, pids
+				
+				If IsNull(m_config) Then
+					bytes = Array(&H00, &H00, &H00, m_pid, &H00, &H53, &H00, &H00, command)
+				Else
+					If IsNull(pid) Then 
+						If m_pid < &HFF Then m_pid = m_pid + 1 Else m_pid = 1 End If
+						pid = m_pid
+					End If
+					
+					If IsNull(opt) Then
+						opt = &H00
+					End If
+					
+					bytes = Array(&H00, &H00, opt, pid, m_config(6), m_config(7), m_config(4), m_config(5), command)
+				End If
+				
+				i = UBound(bytes)
+
+				For Each b In data    
+					ReDim Preserve bytes(i + 1)
+					bytes(i + 1) = CByte(b)
+					i = i + 1
+				Next
+				
+				plen = UBound(bytes)+1
+				bytes(0) = plen And &HFF&
+				bytes(1) = plen \ &H100 And &HFF&
+				
+				crc16 = CRC16_CCITT_1021(bytes, UBound(bytes)+1)
+				
+				ReDim Preserve bytes(UBound(bytes) + 2)
+				bytes(UBound(bytes)-1) = crc16 And &HFF&
+				bytes(UBound(bytes)) = crc16 \ &H100 And &HFF&
+				
+				If GetBit(opt, 1) Then
+					m_request = bytes
+				End If
+				
+				For j = LBound(bytes) to UBound(bytes) 
+					pack = pack & CHR(bytes(j))
+				next
+				
+				mscomm.Output = pack
+			End Sub			
+			
+			Sub RegisterCallback(ByVal name, ByRef ref)
+				If callbacks.Exists(name) Then
+					callbacks.Item(name) = ref
+				Else
+					callbacks.Add name, ref
+				End If
+			End Sub			
+			
+			Sub KeepAlive()
+				Call SendPacket(&H07, Array(), Null, &H01)
+			End Sub
+
+			Sub FirmwareInfo(Model, SerialNumber, AppVersion)
+				Dim i
+				Dim data(65)
+				data(0) = &H00
+				data(1) = &H0A
+				data(2) = &H04
+				data(3) = &H02
+				data(5)	= &H00
+				data(6) = &H00
+				
+				For i=1 To Len(Model)
+					data(5+i) = Asc(Mid(Model,i,1))
+				Next
+				
+				For i=1 To Len(SerialNumber)
+					data(25+i) = Asc(Mid(SerialNumber,i,1))
+				Next
+
+				For i=1 To Len(AppVersion)
+					data(45+i) = Asc(Mid(AppVersion,i,1))
+				Next
+				
+				Call SendPacket(&H05, data, Null, &H00)
+			End Sub
+			
+			Sub VendRequest(ItemPrice)
+				Call SendPacket(&H80, Array(&H13, &H00, (ItemPrice * 100) And &HFF&, (ItemPrice * 100) \ &H100 And &HFF&, &H01, &H00), Null, &H00)
+			End Sub
+			
+			Sub VendCancel()
+				Call SendPacket(&H80, Array(&H13, &H01), Null, &H00)
+			End Sub			
+			
+			Sub VendSuccess()
+				Call SendPacket(&H80, Array(&H13, &H02, &HFF, &HFF), Null, &H00)
+			End Sub
+			
+			Sub VendFailure()
+				Call SendPacket(&H80, Array(&H13, &H03), Null, &H00)
+			End Sub
+			
+			Sub SessionComplete()
+				Call SendPacket(&H80, Array(&H13, &H04), Null, &H00)
+			End Sub			
+			
+			Sub Alert(id, message)
+				Dim data
+				ReDim data(Len(message)+2)
+				
+				data(0) = id And &HFF&
+				data(1) = id \ &H100 And &HFF&
+			
+				For i=1 To Len(message)
+					data(1+i) = Asc(Mid(message,i,1))
+				Next			
+			
+				Call SendPacket(&H31, Array(&H13, &H03), Null, &H00)
+			End Sub			
+			
+			Sub MDB(cmd, data)
+			
+				Dim mdb_pack : mdb_pack = Array(cmd)
+				Dim i : i = UBound(mdb_pack)
+
+				For Each b In data    
+					ReDim Preserve mdb_pack(i + 1)
+					mdb_pack(i + 1) = CByte(b)
+					i = i + 1
+				Next
+				
+				Call SendPacket(&H80, mdb_pack, True, Null, &H00)
+			End Sub			
+			
+			Function get_IsOpened()
+				get_IsOpened = mscomm.CommPort
+			End Function			
+			
+			Sub OpenPort(port)
+				m_pid = &H00
+				m_buffer = Array()
+				m_config = Null
+				m_request = Null
+				m_session = False			
+			
+				mscomm.CommPort = port
+				mscomm.Settings = "115200,n,8,1"
+				mscomm.DTREnable = 0
+				mscomm.RTSEnable = 0
+				mscomm.RThreshold = 1
+				mscomm.SThreshold = 0
+				mscomm.InputLen = 0
+				mscomm.InputMode = 1
+				mscomm.PortOpen = True
+			End Sub
+		
+			Sub ClosePort()
+				Call sink.Cancel()
+				Call SendPacket(&H80, Array(&H14, &H00), Null, &H00)
+				mscomm.InputLen = 0
+				mscomm.PortOpen = False
+			End Sub		
+		
+		]]>
+		</script>		
+	
+	</component>	
+	
+</package>

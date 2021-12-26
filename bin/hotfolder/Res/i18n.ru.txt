@@ -1,0 +1,164 @@
+﻿[MAIN_WINDOW]
+Description=Утилита Hot Folder Print
+Printers=Принтеры
+PrinterStatus=Статус принтера
+
+[BUTTON_TEXT]
+Okay=ОК
+
+[PRINTER_INFO]
+Printer=Принтер:
+Status=Статус:
+Sheets=Запас листов:
+SerialNumber=Заводской №:
+Firmware=Встроенное ПО:
+CVD=CVD:
+MediaType=Тип бумаги:
+LifeCounter=Общий счетчик:
+HeadTemp=Т° печатающей головки:
+Humidity=Влажность %:
+MatCounter=Счетчик матовой бумаги:
+ICMFile=Файл ICM:
+
+[PROC_STATUS]
+Initializing=Инициализация
+Running=Работа
+NoPrinter=Принтер не найден
+Paused=Вожидании
+ShuttingDown=Выключение
+
+[PrintSizes]
+s3_5x5=9х13 cm
+s4x4=10х10 cm
+s4x5=10х13 cm
+s4x53=10х13,5 cm
+s4x6=10х15 cm
+s2x6=5х15 cm
+s4x7=10х18 cm 
+s4x8=10х20 cm
+s4x10=10х25 cm
+s4x12=10х30 cm
+s5x5=13х13 cm
+s5x7=13х18 cm
+s6x45=11x15 cm
+s6x8=15х20 cm
+s6x9=15х23 cm
+s8x8=20х20 cm
+s8x10=20х25 cm
+s8x12=20х30 cm
+s8x10D =20х25D cm
+s8x10_50D =20х26D cm 
+s8x10_75D =20х27D cm
+s8x12D =20х30D cm
+s8x4x3D =20х10D x3 cm
+s8x6x2D =20х15D х2 cm
+
+[ADMIN]
+TabSystem=Система
+TabBorders=Рамки
+ArchiveImages=Архивировать фотографии
+ArchiveImagesChecked=Да
+ArchiveImagesUnChecked=Нет
+StartMinimized=Запуск маленького окна
+StartMinimizedChecked=Да
+StartMinimizedUnChecked=Нет
+ColorScience=Автокорректировка
+ColorScienceChecked=Да
+ColorScienceUnChecked=Нет
+DragDropModeChecked=Да
+DragDropModeUnChecked=Нет
+Revert=Вернуться
+SaveAndExit=Сохранить и выйти
+SaveAndExitToDesktop=Сохранить и выйти на рабочий стол
+PrintCopies=Кол-во отпечатков
+FinishType=Тип покрытия
+Resolution=Разрешающая способность
+MinPaperLeftForError=Осталось мало листов - Ошибка
+MinPaperLeftForWarning=Осталось мало листов - Предупреждение
+Settings=Настройки
+DragDropMode=Режим перетаскивания
+
+[PRINTING]
+Printing=Печать
+PrintSize=Формат печати
+FindImages=Найти фотографии
+Print=Печать
+Title=Отпечатки
+PleaseWait=Подождите...
+
+[ADJUSTCOLOR]
+ColorAdjustment=Цвета
+UseICM=Использовать ICM
+UseAutoColor=Использовать автоматическую корректировку цветов
+SyncChannels=Синхронизация каналов
+Red=Красный
+Green=Зеленый
+Blue=Синий
+Chroma=Насыщенность
+Sharp=Четкость
+Apply=Применить
+Brightness=Яркость
+Gamma=Гамма
+Contrast=Контраст
+RGB=RGB
+ResetAllColor=Сбросить все цвета
+
+[BORDER_MGMT]
+SelectPrintSize=Выбрать формат печати
+Enabled=Включен
+DeleteMSG=Вы хотите удалить {0}?\n Продолжить?
+DeleteTitle=Удалить рамку
+Import=Импортировать рамку
+Edit=Редактировать
+Delete=Удалить
+Borders=Рамки
+
+[BORDER_IMPORT]
+Horizontal=Горизонтальная
+Vertical=Вертикальная
+LoadHorizontal=Загрузить горизонтальную
+LoadVertical=Загрузить вертикальную
+BorderName=Название рамки
+Cancel=Отмена
+Ok=ОК
+Title=Рамки
+
+[BORDER_IMPORT_MSG]
+UniqueName=Требуется уникальное название рамки
+HorizontalRequired=Необходима горизонтальная рамка
+VerticalRequired=Необходима вертикальная рамка
+
+[COLORADJUST]
+TabColorAdjust=Настройка цветов
+R=Красный
+G=Зеленый
+B=Синий
+
+[ICM]
+ICM=ICM
+PrinterType=Тип принтера
+AssignICM=Присвоить новый ICM
+ResetAllICM=Сбросить все ICM
+
+[LOGGING]
+Logging=Регистрация
+UserKey=Идентификатор пользователя
+UseOnlineLogging=Регистрироваться онлайн
+ServerIP=IP-адрес сервера
+ServerPort=Порт сервера
+Apply=Применить
+
+[ERROR_MESSAGES]
+UnsupportedPrinterTitle=Ошибка: обнаружено несовместимое устройство
+UnsupportedPrinter=Спасибо за пользование утилитой Hot Folder Print от DNP. Hot Folder Print обнаружила несовместимый принтер и не может отослать фотографии на распечатку на это устройство. См. Руководство пользователя - список совместимых принтеров. Спасибо!
+
+[ABOUT]
+About=об этом
+CompanyName=DNP Hot Folder Print
+Version=версия
+Copyright=© 2014 DNP Imagingcomm America Corporation. Все права защищены.
+Update=проверить наличие обновлений
+
+[FILENOTFOUND]
+Missing=отсутствует
+Ok=OK

@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<bleed>
+  <!-- 
+        CSP_L = 1
+        CSP_2L = 2
+        CSP_PC = 3
+        CSP_A5 = 4
+        CSP_A5W = 5
+        CSP_PCx2 = 6
+        CSP_DSC = 7
+        CSP_2DSC = 8
+        CSP_8X10 = 31
+        CSP_8X12 = 32
+        CSP_8X4 = 33
+        CSP_8X5 = 34
+        CSP_8X6 = 35
+        CSP_8X8 = 36
+        CSP_8X4X2 = 37
+        CSP_8X5X2 = 38
+        CSP_8X6X2 = 39
+        CSP_8X5_8X4 = 40
+        CSP_8X6_8X4 = 41
+        CSP_8X6_8X5 = 42
+        CSP_8X8_8X4 = 43
+        CSP_8X4_X3 = 44
+        -->
+  <rect x="5" y="10" width="42" height="30" paper_type="1" />
+  <rect x="5" y="10" width="42" height="30" paper_type="2" />
+  <rect x="2" y="10" width="36" height="24" paper_type="3" />
+  <rect x="2" y="10" width="36" height="24" paper_type="4" />
+  <rect x="2" y="10" width="36" height="24" paper_type="5" />
+  <rect x="2" y="10" width="36" height="24" paper_type="6" />
+  <rect x="2" y="10" width="36" height="24" paper_type="7" />
+  <rect x="2" y="10" width="36" height="24" paper_type="8" />
+  
+  <rect x="2" y="10" width="36" height="24" paper_type="12" />
+  <rect x="2" y="10" width="36" height="24" paper_type="13" />
+  
+  <rect x="0" y="10" width="37.5" height="30" paper_type="31" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="32" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="33" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="34" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="35" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="36" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="37" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="38" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="39" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="40" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="41" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="42" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="43" />
+  <rect x="0" y="10" width="37.5" height="30" paper_type="44" />
+</bleed>

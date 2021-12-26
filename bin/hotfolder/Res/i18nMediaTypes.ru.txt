@@ -1,0 +1,19 @@
+﻿[Media_Types_Short]
+-1=Неизвестный
+1=CSP_L (9x13 cm)
+2=CSP_2L (13x18 cm)
+3=CSP_PC (10x15 cm)
+4=CSP_A5 (15x20 cm)
+5=CSP_A5W (15x23 cm)
+31=CSP_8X10 (20x25 cm)
+32=CSP_8X12 (20x30 cm)
+
+[Media_Types_Size]
+-1=Неизвестный
+1=9x13 cm
+2=13x18 cm
+3=10x15 cm
+4=15x20 cm
+5=15x23 cm
+31=20x25 cm
+32=20x30 cm

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+  <RFIDSub_DS40>49</RFIDSub_DS40>
+  <RFIDSub_DS80>49</RFIDSub_DS80>
+  <RFIDSub_DS80D>49</RFIDSub_DS80D>
+  <RFIDSub_RX>49</RFIDSub_RX>
+  <RFIDSub_CW02>49</RFIDSub_CW02>
+  <MultiCutTimeout>30</MultiCutTimeout>
+  <EnableColorScience>True</EnableColorScience>
+  <UseICM>True</UseICM>
+  <UseRedeye>True</UseRedeye>
+  <StartMinimized>True</StartMinimized>
+  <AchiveImages>True</AchiveImages>
+  <PrintCopies>1</PrintCopies>
+  <Resolution>300</Resolution>
+  <FinishType>Matte</FinishType>
+  <Red>0</Red>
+  <Green>0</Green>
+  <Blue>0</Blue>
+  <CRed>0</CRed>
+  <CGreen>0</CGreen>
+  <CBlue>0</CBlue>
+  <BRed>0</BRed>
+  <BGreen>0</BGreen>
+  <BBlue>0</BBlue>
+  <GRed>1</GRed>
+  <GGreen>1</GGreen>
+  <GBlue>1</GBlue>
+  <Chroma>1</Chroma>
+  <Sharpness>0</Sharpness>
+  <PaperMinForWarning>21</PaperMinForWarning>
+  <PaperMinForError>1</PaperMinForError>
+  <UserKey1>1000</UserKey1>
+  <UserKey2>5555</UserKey2>
+  <UseOnlineLogging>False</UseOnlineLogging>
+  <ServerIPAddress>50.197.57.212</ServerIPAddress>
+  <ServerPortNumber>3306</ServerPortNumber>
+  <UseCopies>True</UseCopies>
+</settings>

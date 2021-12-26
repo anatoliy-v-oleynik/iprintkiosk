@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<buffers>
+  <!--
+  public const int CSP_L = 1;
+  public const int CSP_2L = 2;
+  public const int CSP_PC = 3;
+  public const int CSP_A5 = 4;
+  public const int CSP_A5W = 5;
+  public const int CSP_PCx2 = 6;
+  public const int CSP_DSC = 7;
+  public const int CSP_2DSC = 8;
+  public const int CSP_8X10 = 31;
+  public const int CSP_8X12 = 32;
+  public const int CSP_8X4 = 33;
+  public const int CSP_8X5 = 34;
+  public const int CSP_8X6 = 35;
+  public const int CSP_8X8 = 36;
+  public const int CSP_8X4X2 = 37;
+  public const int CSP_8X5X2 = 38;
+  public const int CSP_8X6X2 = 39;
+  public const int CSP_8X5_8X4 = 40;
+  public const int CSP_8X6_8X4 = 41;
+  public const int CSP_8X6_8X5 = 42;
+  public const int CSP_8X8_8X4 = 43;
+  public const int CSP_8X4_X3 = 44;
+-->
+  <!-- s3x5_300dpi -->
+  <buffer width="1548" height="1088" paper_type="1" />
+  <buffer width="1548" height="1088" paper_type="7" />
+  <!-- s5x7_300dpi -->
+  <buffer width="1548" height="2138" paper_type="2" />
+  <buffer width="1548" height="2138" paper_type="38" />
+  <!-- s4x6_300dpi -->
+  <buffer width="1844" height="1240" paper_type="3" />
+  <buffer width="1844" height="1240" paper_type="6" />
+  <!-- s6x4.5_300dpi -->
+  <buffer width="1844" height="1386" paper_type="12" />
+  <buffer width="1844" height="1386" paper_type="13" />
+  <!-- s6x8_300dpi -->
+  <buffer width="1844" height="2436" paper_type="4" />
+  <buffer width="1844" height="2436" paper_type="35" />
+  <buffer width="1844" height="2436" paper_type="39" />
+  <!-- s6x9_300dpi -->
+  <buffer width="1844" height="2740" paper_type="5" />
+  <!-- s8x10_300dpi -->
+  <buffer width="2448" height="3036" paper_type="31" />
+  <!-- s8x12_300dpi -->
+  <buffer width="2448" height="3636" paper_type="32" />
+  <!-- s8x4_300dpi -->
+  <buffer width="2448" height="1236" paper_type="33" />
+  <buffer width="2448" height="1236" paper_type="37" />
+  <buffer width="2448" height="1236" paper_type="44" />
+  <!-- s8x10d_300dpi -->
+  <buffer width="2448" height="3036" paper_type="131" />
+  <!-- s8x10.5d 300dpi-->
+  <buffer width="2448" height="3186" paper_type="151" />
+  <!-- s8x10.75d 300dpi-->
+  <buffer width="2448" height="3186" paper_type="152" />
+  <!-- s8x12d_300dpi -->
+  <buffer width="2448" height="3636" paper_type="132" />
+  <!-- s8x4x3d_300dpi -->
+  <buffer width="2448" height="1236" paper_type="153" />
+  <!-- s4x4x2x3d_300dpi -->
+  <buffer width="2448" height="1236" paper_type="153" />
+  <!-- s8x6x2d_300dpi -->
+  <buffer width="2448" height="1836" paper_type="139" />
+</buffers>

@@ -1,0 +1,144 @@
+<package>
+	<job id="main">
+		<object id="SCH" progid="ScriptCoding.Helper" events="False"/>
+		<object id="Log" progid="ScriptCoding.Log" events="False"/>
+		<object id="WshShell" progid="WScript.Shell" events="False"/>
+		<object id="APP" progid="Shell.Application" events="False"/>
+		<object id="FSO" progid="Scripting.FileSystemObject" events="False"/>
+		<object id="XmlHttp" progid="Msxml2.ServerXMLHTTP.3.0" events="False"/>
+		
+		<script language="JScript">
+		
+			WshShell.CurrentDirectory = FSO.GetParentFolderName(WScript.ScriptFullName);
+		
+			// запускаем от имени администратора
+			if (!WScript.Arguments.Named.Exists("nologo"))
+			{
+				APP.ShellExecute("wscript.exe", "\"" + WScript.ScriptFullName + "\" /nologo", FSO.GetParentFolderName(WScript.ScriptFullName), "runas", 0);
+				WScript.Quit();
+			}
+
+			XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%") + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%") + "&command=notify-app-start", false);
+			XmlHttp.send();
+
+			APP.ShellExecute("cmd.exe", "/C \"netsh wlan start hostednetwork\"", WshShell.CurrentDirectory, "runas", 0);
+
+			var process = true;
+			
+			while (process)
+			{
+				createScriptlet("check-run");
+				createScriptlet("process-commands");
+				WScript.Sleep(1000 * 60);
+			}
+			
+			Log.Info("Завершение работы iprintkiosk.wsf");
+			
+		</script>
+	</job>
+	
+	<job id="check-run">
+		<object id="Log" progid="ScriptCoding.Log" events="False"/>
+		<object id="WshShell" progid="WScript.Shell" events="False"/>
+		<object id="APP" progid="Shell.Application" events="False"/>
+		<object id="FSO" progid="Scripting.FileSystemObject" events="False"/>
+		
+		<script language="JScript">
+			WshShell.CurrentDirectory = FSO.GetParentFolderName(WScript.ScriptFullName);
+
+			try
+			{
+				var PsProcess, PsList, PsProcesses;
+				var PsWMI = GetObject("winMgmts:");
+			
+				//**************************************************************************************************
+				// Запускаем Hot Folder.exe
+				//**************************************************************************************************
+				PsProcesses = new Enumerator(PsWMI.ExecQuery("SELECT * FROM Win32_Process WHERE Name = 'HotFolder.exe'"));
+				if (PsProcesses.atEnd())
+				{
+					Log.Info("Запуск HotFolder.exe");
+					WshShell.Run("cmd.exe /C \"Start /D " + WshShell.CurrentDirectory + "\\hotfolder\\" + " HotFolder.exe\"", 0);
+				}		
+			
+				//**************************************************************************************************
+				// Запускаем облако если оно не запущено
+				//**************************************************************************************************
+				PsProcesses = new Enumerator(PsWMI.ExecQuery("SELECT * FROM Win32_Process WHERE Name = 'YandexDisk.exe'"));
+				if (PsProcesses.atEnd())
+				{
+					if (FSO.FileExists(WshShell.ExpandEnvironmentStrings("%USERPROFILE%") + "\\AppData\\Roaming\\Yandex\\YandexDisk\\YandexDisk.exe"))
+					{					
+						Log.Info("Запуск облака YandexDisk");
+						WshShell.Run("cmd.exe /C \"Start /D" + WshShell.ExpandEnvironmentStrings("%USERPROFILE%") + "\\AppData\\Roaming\\Yandex\\YandexDisk\\" + " YandexDisk.exe\"", 0);
+					}
+				}
+		
+				//**************************************************************************************************
+				// Запускаем интерфейс пользователя если он не запущен
+				//**************************************************************************************************		
+				PsProcesses = new Enumerator(PsWMI.ExecQuery("SELECT * FROM Win32_Process WHERE Name = 'mshta.exe' AND CommandLine LIKE '%iprintkiosk.hta%'"));
+				if (PsProcesses.atEnd())
+				{   
+					Log.Info("Запуск интерфейса пользователя: {0}", WshShell.CurrentDirectory + "\\iprintkiosk.hta");
+					WshShell.Run("cmd.exe /C \"Start /D\"" + WshShell.CurrentDirectory + "\" iprintkiosk.hta\"", 0);             
+				}
+			}
+			catch(e)
+			{
+				Log.Error("Ошибка запуска: {0}", e.description);
+			}	
+		</script>
+	</job>
+	
+	<job id="process-commands">
+		<object id="Log" progid="ScriptCoding.Log" events="False"/>
+		<object id="WshShell" progid="WScript.Shell" events="False"/>
+		<object id="APP" progid="Shell.Application" events="False"/>
+		<object id="FSO" progid="Scripting.FileSystemObject" events="False"/>
+	
+		<script language="JScript">
+			WshShell.CurrentDirectory = FSO.GetParentFolderName(WScript.ScriptFullName);
+
+			try
+			{
+				var SC = new ActiveXObject("MSScriptControl.ScriptControl");
+				var files = FSO.GetFolder(WshShell.CurrentDirectory + "\\commands").Files;
+				var eFiles = new Enumerator(files);
+				var stream;
+				var item;
+
+				for (; !eFiles.atEnd(); eFiles.moveNext())
+				{
+					item = eFiles.item();
+					Log.Info("Обработка комманды {0}", item.Name);
+					switch (FSO.GetExtensionName(item.Name).toLowerCase())
+					{
+						case "bat":
+							WshShell.Run(item.Path, 0, true);
+							item.Delete();
+							break;
+						case "js":
+							stream = item.OpenAsTextStream(1);
+							SC.Language = "JScript";
+							SC.ExecuteStatement(stream.ReadAll());			
+							stream.Close();
+							item.Delete();
+							break;
+						case "vbs":
+							stream = item.OpenAsTextStream(1);
+							SC.Language = "VBScript";
+							SC.ExecuteStatement(stream.ReadAll());			
+							stream.Close();
+							item.Delete();
+							break;				
+					}
+				}		
+			}		
+			catch(e)
+			{
+				Log.Error("Ошибка обработки комманд: {0}", e.description);
+			}
+		</script>
+	</job>	
+</package>

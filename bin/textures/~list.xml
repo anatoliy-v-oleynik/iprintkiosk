@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?> 
+<data>
+	<ImageLoader name="texture_01.png" x="45" y="380" captionTextColor="0x000000" captionTextVisible="true" dateTextVisible="true" locationVisible="true" captionHintTextColor="0xCCCCCC" url="./textures/preview_01.png" load="true"/>
+	<ImageLoader name="texture_02.png" x="45" y="480" captionTextColor="0xFFFFFF" captionTextVisible="true" dateTextVisible="true" locationVisible="true" captionHintTextColor="0x333333" url="./textures/preview_02.png" load="true"/>
+	<ImageLoader name="texture_03.png" x="45" y="580" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_03.png" load="true"/>
+	<ImageLoader name="texture_04.png" x="45" y="680" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_04.png" load="true"/>
+	<ImageLoader name="texture_05.png" x="45" y="780" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_05.png" load="true"/>
+	<ImageLoader name="texture_06.png" x="45" y="880" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_06.png" load="true"/>
+	<ImageLoader name="texture_07.png" x="45" y="980" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_07.png" load="true"/>
+	<ImageLoader name="texture_08.png" x="45" y="1080" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_08.png" load="true"/>
+	<ImageLoader name="texture_09.png" x="45" y="1180" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_09.png" load="true"/>
+	<ImageLoader name="texture_10.png" x="45" y="1280" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_10.png" load="true"/>
+	<ImageLoader name="texture_11.png" x="45" y="1380" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_11.png" load="true"/>
+	<ImageLoader name="texture_65.png" x="45" y="1480" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_65.png" load="true"/>
+	<ImageLoader name="texture_66.png" x="45" y="1580" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_66.png" load="true"/>
+	
+	<ImageLoader name="texture_12.png" x="940" y="380" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_12.png" load="true"/>
+	<ImageLoader name="texture_13.png" x="940" y="480" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_13.png" load="true"/>
+	<ImageLoader name="texture_14.png" x="940" y="580" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_14.png" load="true"/>
+	<ImageLoader name="texture_15.png" x="940" y="680" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_15.png" load="true"/>
+	<ImageLoader name="texture_16.png" x="940" y="780" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_16.png" load="true"/>
+	<ImageLoader name="texture_17.png" x="940" y="880" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_17.png" load="true"/>
+	<ImageLoader name="texture_18.png" x="940" y="980" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_18.png" load="true"/>
+	<ImageLoader name="texture_19.png" x="940" y="1080" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_19.png" load="true"/>
+	<ImageLoader name="texture_94.png" x="940" y="1180" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_94.png" load="true"/>
+	<ImageLoader name="texture_95.png" x="940" y="1280" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_95.png" load="true"/>
+	<ImageLoader name="texture_20.png" x="940" y="1380" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_20.png" load="true"/>
+	<ImageLoader name="texture_32.png" x="940" y="1480" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_32.png" load="true"/>
+	<ImageLoader name="texture_33.png" x="940" y="1580" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_33.png" load="true"/>
+	
+	<ImageLoader name="texture_23.png" x="60" y="100" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_23.png" load="true"/>
+	<ImageLoader name="texture_24.png" x="180" y="100" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_24.png" load="true"/>
+	<ImageLoader name="texture_25.png" x="300" y="100" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_25.png" load="true"/>
+	<ImageLoader name="texture_26.png" x="419" y="100" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_26.png" load="true"/>
+	<ImageLoader name="texture_27_1.png" x="538" y="100" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_27_1.png" load="true"/>
+	<ImageLoader name="texture_27_2.png" x="658" y="100" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_27_2.png" load="true"/>
+	<ImageLoader name="texture_28.png" x="777" y="100" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_28.png" load="true"/>
+	<ImageLoader name="texture_31.png" x="897" y="100" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_31.png" load="true"/>
+	
+	<ImageLoader name="texture_62.png" x="60" y="250" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_62_1.png" load="true"/>
+	<ImageLoader name="texture_64.png" x="180" y="250" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_64_1.png" load="true"/>
+	<ImageLoader name="texture_63.png" x="300" y="250" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_63_1.png" load="true"/>
+	<ImageLoader name="texture_67.png" x="419" y="250" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_67_1.png" load="true"/>
+	<ImageLoader name="texture_68.png" x="538" y="250" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_68_1.png" load="true"/>
+	<ImageLoader name="texture_71.png" x="658" y="250" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_71_1.png" load="true"/>
+	<ImageLoader name="texture_69.png" x="777" y="250" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_69_1.png" load="true"/>
+	<ImageLoader name="texture_70.png" x="897" y="250" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_70_1.png" load="true"/>
+	
+	<ImageLoader name="texture_93.png" x="185" y="1489" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_93_1.png" load="true"/>
+	<ImageLoader name="texture_92.png" x="311" y="1489" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_92_1.png" load="true"/>
+	<ImageLoader name="texture_103.png" x="436" y="1489" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_103_1.png" load="true"/>
+	<ImageLoader name="texture_106.png" x="562" y="1489" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_106_1.png" load="true"/>
+	<ImageLoader name="texture_108.png" x="687" y="1489" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_108_1.png" load="true"/>
+	<ImageLoader name="texture_109.png" x="812" y="1489" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_109_1.png" load="true"/>
+	
+	
+	<ImageLoader name="texture_110.png" x="185" y="1615" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_110_1.png" load="true"/>
+	<ImageLoader name="texture_85.png" x="311" y="1615" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_85_1.png" load="true"/>
+	<ImageLoader name="texture_86.png" x="436" y="1615" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_86_1.png" load="true"/>
+	<ImageLoader name="texture_87.png" x="562" y="1615" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_87_1.png" load="true"/>
+	<ImageLoader name="texture_89.png" x="687" y="1615" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_89_1.png" load="true"/>
+	<ImageLoader name="texture_110.png" x="812" y="1615" captionTextColor="0x000000" captionTextVisible="false" dateTextVisible="false" locationVisible="false" captionHintTextColor="0xCCCCCC" url="./textures/preview_110_1.png" load="true"/>
+
+	
+</data>

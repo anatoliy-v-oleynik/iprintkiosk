@@ -1,0 +1,934 @@
+<?XML version="1.0"?>
+<package>
+	<?component error="True" debug="True"?>
+	
+	<component id="PosDevices.BillAcceptor">
+		<registration
+			description="PosDevice BillAcceptor v1.0"
+			progid="PosDevices.BillAcceptor"
+			classid="{2c2dee90-a750-49c0-a29c-622b4debe0ae}"
+			version="1.00"
+			remotable="False"
+			/>
+					
+		<public>
+		
+			<property name="Enable">
+				<get/>
+				<put/>
+			</property>
+			
+			<property name="Protocol">
+				<get/>
+				<put/>
+			</property>
+			
+			<property name="Port">
+				<get/>
+				<put/>
+			</property>			
+			
+			<property name="BillTypes">
+				<get/>
+				<put/>
+			</property>
+		
+			<method name="Polling">
+				<parameter name="summ"/>
+				<parameter name="timeout"/>
+			</method>	
+		
+			<!--Command for Bill Validator to self-reset.-->
+			<method name="Reset">
+			</method>
+
+			<!--Request for Bill Validator activity Status.-->
+			<method name="Pool">
+			</method>			
+			
+			<!--Indicates Bill Type enable or disable. Command is followed by set-up data. -->
+			<method name="EnableBillTypes">
+				<parameter name="nominal"/>
+			</method>			
+			
+			<!--Sent by Controller to send a bill in escrow to the drop cassette.-->
+			<method name="Stack">
+			</method>			
+			
+			<!--Sent by Controller to return a bill in escrow.-->
+			<method name="Return">
+			</method>
+			
+			<!--Command for holding of Bill Validator in Escrow state.-->
+			<method name="Hold">
+			</method>
+			
+			<!--ACK-->
+			<method name="ACK">
+			</method>
+		
+			<!--NAK-->
+			<method name="NAK">
+			</method>
+
+			<!--Request for bill type assignments.-->
+			<method name="GetBillTable">
+			</method>
+			
+			<!--Request for Model, Serial Number, Software Version of Bill-to-Bill unit, Country ISO code, Asset Number.-->
+			<method name="GetIdentification">
+			</method>			
+			
+			<event name="OnAccepted"/>
+			<event name="OnReturned"/>
+			<event name="OnStacked"/>
+			<event name="OnError"/>
+			<event name="OnInfo"/>
+			<event name="OnData"/>
+			
+		</public>
+		
+		<object id="fso" progid="Scripting.FileSystemObject" events="False"/>
+		
+		<script language="VBScript">
+		<![CDATA[
+
+			Dim handler
+			Dim m_enable : m_enable = False
+			Dim m_protocol : m_protocol = "CCNET"
+			Dim m_port : m_port = 0
+			Dim m_billTable : m_billTable = "0,0,0,0,0,0"
+		
+			Private Sub OnAccepted()
+				fireEvent "OnAccepted"
+			End Sub
+		
+			Private Sub OnReturned(valuta, nominal)
+				fireEvent "OnReturned", valuta, nominal
+			End Sub
+
+			Private Sub OnStacked(valuta, nominal)
+				fireEvent "OnStacked", valuta, nominal
+			End Sub
+		
+			Private Sub OnError(number, description)
+				fireEvent "OnError", number, description
+			End Sub
+			
+			Private Sub OnInfo(number, description)
+				fireEvent "OnInfo", number, description
+			End Sub			
+			
+			Private Sub OnData(data)
+				fireEvent "OnData", data
+			End Sub			
+		
+			Sub fireError(number, description)
+				OnError "OnError", number, description
+				Err.Clear
+			End Sub		
+		
+			'
+			Function get_Enable()
+				get_Enable = m_enable
+			End Function
+			
+			Function put_Enable(ByVal value)
+				If value = m_enable Then
+					Exit Function
+				End If
+				
+				On Error Resume Next
+				If (value = True) Then
+					Set handler = GetObject("script:" & fso.BuildPath(fso.GetAbsolutePathname(".\"), "posdevices.wsc") & "#PosDevices." & m_protocol)
+					If (Err.Number <> 0) Then fireError Err.Number, Err.Description : Exit Function 					
+					
+					handler.RegisterCallback "OnAccepted", GetRef("OnAccepted")
+					handler.RegisterCallback "OnReturned", GetRef("OnReturned")
+					handler.RegisterCallback "OnStacked", GetRef("OnStacked")
+					handler.RegisterCallback "OnError", GetRef("OnError")
+					handler.RegisterCallback "OnInfo", GetRef("OnInfo")
+					handler.RegisterCallback "OnData", GetRef("OnData")
+
+					If m_port > 0 Then
+						handler.OpenPort(m_port)
+					Else
+						Dim objWMI, objPortInstances
+						Set objWMI = GetObject("winmgmts://./root\WMI")
+						Set objPortInstances = objWMI.InstancesOf("MSSerial_PortName")
+						If (Err.Number <> 0) Then fireError Err.Number, Err.Description : Exit Function 
+
+						For Each objPortInstance in objPortInstances
+							If (objPortInstance.Active) Then
+								handler.OpenPort(CInt(Mid(objPortInstance.PortName, 4, Len(objPortInstance.PortName)-3)))
+								If (Err.Number <> 0) Then 
+									fireError Err.Number, Err.Description
+								End If
+								Dim id : id = handler.Identify()
+								If (Err.Number <> 0) Then 
+									fireError Err.Number, Err.Description
+								End If
+								If id Then
+									OnData "Identify COM:" & Mid(objPortInstance.PortName, 4, Len(objPortInstance.PortName)-3)
+								End If
+							End If
+						Next
+						Set objPortInstances = Nothing
+						Set objWMI = Nothing
+					End If
+				Else
+					handler.ClosePort()
+					If (Err.Number <> 0) Then fireError Err.Number, Err.Description : Exit Function
+				End If
+				
+				m_enable = value
+				On Error Goto 0
+			End Function
+		
+			'
+			Function get_Protocol()
+				get_Protocol = m_protocol
+			End Function
+			
+			Function put_Protocol(ByVal value)
+				m_protocol = value
+			End Function
+		
+			'
+			Function get_Port()
+				get_Port = m_port
+			End Function
+			
+			Function put_Port(ByVal value)
+				m_Port = value
+			End Function		
+		
+			Function get_BillTypes()
+				get_BillTable = m_billTypes
+			End Function
+			
+			Function put_BillTypes(ByVal value)
+				m_billTypes = value
+			End Function		
+		
+			Sub Polling(summ, timeout)
+				Call handler.Polling(summ, timeout)
+			End Sub			
+		
+			'Command for Bill Validator to self-reset.
+			Sub Reset()
+				handler.Reset()
+			End Sub
+			
+			'Request for Bill Validator activity Status.
+			Sub Pool()
+				handler.Pool()
+			End Sub
+			
+			'Indicates Bill Type enable or disable.
+			Sub EnableBillTypes(nominal)
+				handler.EnableBillTypes(nominal)
+			End Sub			
+			
+			'Sent by Controller to send a bill in escrow to the drop cassette.
+			Sub Stack()
+				handler.Stack()
+			End Sub			
+			
+			'Sent by Controller to return a bill in escrow.
+			Sub Return()
+				handler.Return()
+			End Sub			
+			
+			'Command for holding of Bill Validator in Escrow state.
+			Sub Hold()
+				handler.Hold()
+			End Sub			
+			
+			'
+			Sub ACK()
+				handler.ACK()
+			End Sub			
+			
+			'
+			Sub NAK()
+				handler.NAK()
+			End Sub
+			
+			'Request for bill type assignments.
+			Function GetBillTable()
+				GetBillTable = handler.GetBillTable()
+			End Function
+			
+			'Request for Model, Serial Number, Software Version of Bill-to-Bill unit, Country ISO code, Asset Number.
+			Function GetIdentification()
+				GetIdentification = handler.GetIdentification()
+			End Function
+			
+		]]>
+		</script>		
+	
+	</component>
+
+	<component id="PosDevices.CCNET">
+		<registration
+			description="CCNET Protocol v1.0"
+			progid="PosDevices.CCNET"
+			classid="{ec8c38cf-76c9-4efa-8e2e-2938eeebb6a3}"
+			version="1.00"
+			remotable="False"
+			/>
+					
+		<public>
+		
+			<property name="IsOpened">
+				<get/>
+			</property>		
+		
+			<method name="RegisterCallback">
+				<parameter name="name"/>
+				<parameter name="ref"/>
+			</method>
+		
+			<method name="OpenPort">
+				<parameter name="port"/>
+			</method>
+		
+			<method name="ClosePort">
+			</method>
+		
+			<method name="Polling">
+				<parameter name="summ"/>
+				<parameter name="timeout"/>
+			</method>	
+		
+			<!--Command for Bill Validator to self-reset.-->
+			<method name="Reset">
+			</method>
+
+			<!--Request for Bill Validator activity Status.-->
+			<method name="Pool">
+			</method>			
+			
+			<!--Indicates Bill Type enable or disable. Command is followed by set-up data. -->
+			<method name="EnableBillTypes">
+				<parameter name="nominal"/>
+			</method>			
+			
+			<!--Sent by Controller to send a bill in escrow to the drop cassette.-->
+			<method name="Stack">
+			</method>			
+			
+			<!--Sent by Controller to return a bill in escrow.-->
+			<method name="Return">
+			</method>
+			
+			<!--Command for holding of Bill Validator in Escrow state.-->
+			<method name="Hold">
+			</method>
+			
+			<!--ACK-->
+			<method name="ACK">
+			</method>
+		
+			<!--NAK-->
+			<method name="NAK">
+			</method>
+			
+			<!--Identify.-->
+			<method name="Identify">
+			</method>
+			
+			<!--Request for bill type assignments.-->
+			<method name="GetBillTable">
+			</method>
+			
+			<!--Request for Model, Serial Number, Software Version of Bill-to-Bill unit, Country ISO code, Asset Number.-->
+			<method name="GetIdentification">
+			</method>
+			
+		</public>
+		
+		<object id="helper" progid="ScriptCoding.Helper" events="False"/>
+		<object id="callbacks" progid="Scripting.Dictionary" events="False"/>
+		<object id="mscomm" progid="MSCOMMLib.MSComm.1" events="True"/>
+		
+		<reference object="MSCOMMLib.MSComm.1"/>
+		
+		<script language="VBScript">
+		<![CDATA[
+
+			Dim wmi : set wmi = GetObject("winmgmts:"&"{impersonationLevel=impersonate}!\\.\root\cimv2")
+
+			Sub sink_OnObjectReady(objObject, objAsyncContext)
+				Pool()
+			End Sub		
+		
+			Dim m_buffer : m_buffer = Array()
+			Dim m_PollingStart : m_PollingStart = 0
+			Dim m_PollingSumm : m_PollingSumm = 0
+			Dim m_StartAccept : m_StartAccept = False
+			Dim m_PollingLoop : m_PollingLoop = False
+			Dim m_PollingError : m_PollingError = False
+			Dim m_BillAccepting : m_BillAccepting = False
+			Dim m_LastError : m_LastError = 0
+			Dim RUR : RUR = Array(0, 0, 10, 50, 100, 500, 1000, 5000)
+			
+			Sub mscomm_OnComm()
+				Select Case mscomm.CommEvent
+					Case comEvSend
+					Case comEvReceive
+						Dim bytes : bytes = CArray(mscomm.Input)
+						ReDim Preserve m_buffer(UBound(m_buffer)+UBound(bytes)+1)
+						For i = LBound(bytes) to UBound(bytes)
+							m_buffer(UBound(m_buffer)-UBound(bytes) + i) = bytes(i)
+						Next
+
+						Dim answer : answer = Array()
+						Dim temp : temp = Array()
+						Dim repeat
+						Do
+							repeat = False
+							If (m_buffer(0) = &H02) And (m_buffer(1) = &H03) Then
+								If (UBound(m_buffer)+1 >= m_buffer(2)) Then
+									
+									ReDim answer(m_buffer(2)-1)
+									For i = LBound(answer) to UBound(answer)
+										answer(i) = m_buffer(i)
+									Next
+									
+									If UBound(m_buffer)+1 > m_buffer(2) Then
+										Call callbacks.Item("OnError")(0, "Остались данные" & UBound(m_buffer)-UBound(answer))
+										ReDim temp(UBound(m_buffer)-UBound(answer)-1)
+										For i = LBound(temp) to UBound(temp)
+											temp(i) = m_buffer(1+UBound(answer)+i)
+										Next
+										Erase m_buffer
+										m_buffer = temp
+										repeat = True
+									Else
+										Erase m_buffer
+										m_buffer = Array()
+									End If
+
+									Dim crc16 : crc16 = GetCRC16(answer, answer(2)-2)
+									If ((crc16 And &HFF&) = answer(answer(2)-2)) And ((crc16 \ &H100 And &HFF&) = answer(answer(2)-1)) Then
+										Call callbacks.Item("OnData")("Получен пакет " & UBound(answer)+1 & " байт :0x" & BytesToHexStr(answer))
+										Select Case answer(3)
+											Case &H10
+												' Питание купюраприемника включено
+												'callbacks.Item("OnData")("The state of the Bill Validator after power up.")
+												Reset()
+												Exit Sub
+											Case &H11
+												'callbacks.Item("OnData")("Power up with bill in the Bill Validator. After a RESET command from the Controller Bill Validator returns the bill and continues initializing.")
+												Reset()
+												Exit Sub
+											Case &H12
+												'callbacks.Item("OnData")("Power up with bill in Stacker (Bill was transported too far to be returned).")
+												ACK()
+												Reset()
+												Exit Sub												
+											Case &H13
+												' Запуск инициализации купюра приемника после сброса
+												'callbacks.Item("OnData")("Bill Validator executes initialization after the RESET command from Controller.")
+												ACK()
+											Case &H14
+												' Ожидание вноса купюры в купюра приемник
+												'callbacks.Item("OnData")("Bill Validator waits for an inserting of bill into its bill path.")
+
+												m_BillAccepting = False
+												If (m_PollingSumm = 0) Or (m_PollingSumm < 0) Then
+													m_StartAccept = False
+													EnableBillTypes(0)
+													Exit Sub
+												End If
+
+												If (m_StartAccept <> True) Then
+													Call callbacks.Item("OnInfo")(&H14, "Ожидание вноса купюры в купюра приемник.")
+													m_StartAccept = True
+												End If												
+											Case &H15
+												' Выполняется сканирование купюры по векселю и определение ее номинала
+												'callbacks.Item("OnData")("Bill Validator executes scanning of a bill and determines its denomination.")
+												m_BillAccepting = True
+												m_PollingError = False
+												If (m_PollingSumm = 0) Or (m_PollingSumm < 0) Then
+													Return()
+													Exit Sub
+												End If
+												Call callbacks.Item("OnAccepted")()
+												ACK()
+											Case &H17
+												'callbacks.Item("OnData")("Bill Validator transports a bill from Escrow position to drop cassette and remains in this state until the bill is stacked or jammed.")
+												ACK()
+												Stack()
+												Exit Sub													
+											Case &H18
+												'callbacks.Item("OnData")("Bill Validator transports a bill from Escrow position back to customer and remains in this state until customer removes the bill or the bill is jammed.")
+											Case &H19
+												' Ожидает инициализации
+												m_PollingError = False
+												'callbacks.Item("OnData")("Bill Validator has been disabled by the Controller or just came out of initialization.")
+												If m_PollingSumm > 0 Then
+													EnableBillTypes(255)
+													Exit Sub
+												End If
+											Case &H1A
+												'callbacks.Item("OnData")("The state, in which the bill is held in Escrow position after the HOLD command of the Controller.")
+												Call callbacks.Item("OnInfo")(&H1A, "The state, in which the bill is held in Escrow position after the HOLD command of the Controller.")
+											Case &H1B
+												'callbacks.Item("OnData")("Bill Validator cannot answer with a full-length message right now. On expiration of time YH, peripheral is accessible to polling. ")
+											Case &H1C
+												'callbacks.Item("OnData")("Generic rejecting code." & CStr(answer(4)))	
+												Select Case answer(4)
+													Case &H60 Call callbacks.Item("OnError")(&H1C60, "Generic rejecting code. Insertion error")
+													Case &H61 Call callbacks.Item("OnError")(&H1C61, "Generic rejecting code. Dielectric error")
+													Case &H62 Call callbacks.Item("OnError")(&H1C62, "Generic rejecting code. Previously inserted bill remains in head")
+													Case &H63 Call callbacks.Item("OnError")(&H1C63, "Generic rejecting code. Compensation factor error")
+													Case &H64 Call callbacks.Item("OnError")(&H1C64, "Generic rejecting code. Bill transport error")
+													Case &H65 Call callbacks.Item("OnError")(&H1C65, "Generic rejecting code. Identification error")
+													Case &H66 Call callbacks.Item("OnError")(&H1C66, "Generic rejecting code. Verification error")
+													Case &H67 Call callbacks.Item("OnError")(&H1C67, "Generic rejecting code. Optic sensor error")
+													Case &H68 Call callbacks.Item("OnError")(&H1C68, "Generic rejecting code. Return by inhibit error")
+													Case &H69 Call callbacks.Item("OnError")(&H1C69, "Generic rejecting code. Capacistance error")
+													Case &H6A Call callbacks.Item("OnError")(&H1C6A, "Generic rejecting code. Operation error")
+													Case &H6C Call callbacks.Item("OnError")(&H1C6C, "Generic rejecting code. Length error")
+												End Select
+												ACK()
+											Case &H41
+												' Кассета заполнена
+												'callbacks.Item("OnData")("Кассета заполнена полностью.")
+												If m_PollingError = False Then
+													m_PollingStart = 0
+													m_PollingSumm = 0				
+													m_PollingLoop = False
+													m_PollingError = True
+													Reset()
+													Exit Sub
+												Else
+													m_PollingLoop = False
+													Call callbacks.Item("OnError")(&H41, "Кассета заполнена полностью.")
+													ACK()
+												End If
+											Case &H42
+												' Кассета открыта или вынута
+												Call callbacks.Item("OnInfo")(&H42, "Кассета открыта или вынута.")
+											Case &H43
+												' Купюра зажевана в приемнике
+												'callbacks.Item("OnData")("A bill(s) has jammed in the acceptance path.")
+												If m_PollingError = Flase Then 
+													m_PollingError = True
+													Reset()
+													Exit Sub
+												Else
+													Call callbacks.Item("OnError")(&H43, "A bill(s) has jammed in the acceptance path.")
+													m_PollingLoop = False
+													ACK()
+												End If
+											Case &H44
+												' Купюра зажевана в кассете
+												'callbacks.Item("OnData")("A bill has jammed in drop cassette.")
+												If m_PollingError = Flase Then 
+													m_PollingError = True
+													Reset()
+													Exit Sub
+												Else 
+													Call callbacks.Item("OnError")(&H44, "A bill has jammed in drop cassette.")
+													m_PollingLoop = False
+													ACK()
+												End If
+											Case &H45
+												' Высокая интенсивность пользователя. Возможно мошейники.
+												'callbacks.Item("OnData")("Bill Validator sends this event if the intentions of the user to deceive the Bill Validator are detected.")
+												Call callbacks.Item("OnError")(&H45, "Bill Validator sends this event if the intentions of the user to deceive the Bill Validator are detected.")
+												ACK()
+												Exit Sub
+											Case &H46
+												'callbacks.Item("OnData")("When the user tries to insert a second bill when the previous bill is in the Bill Validator but has not been stacked. Thus Bill Validator stops motion of the second bill until the previous bill is stacked.")											
+												Call callbacks.Item("OnInfo")(&H46, "When the user tries to insert a second bill when the previous bill is in the Bill Validator but has not been stacked. Thus Bill Validator stops motion of the second bill until the previous bill is stacked.")
+											Case &H47
+												'callbacks.Item("OnData")("Generic Failure codes.")
+												Select Case answer(4)
+													Case &H50 Call callbacks.Item("OnError")(&H4750, "H4750 Generic Failure codes. Stack motor falure")
+													Case &H51 Call callbacks.Item("OnError")(&H4751, "H4751 Generic Failure codes. Transport speed motor falure")
+													Case &H52 Call callbacks.Item("OnError")(&H4752, "H4752 Generic Failure codes. Transport motor falure")
+													Case &H53 Call callbacks.Item("OnError")(&H4753, "H4753 Generic Failure codes. Aligning motor falure")
+													Case &H54 Call callbacks.Item("OnError")(&H4754, "H4754 Generic Failure codes. Initial cassete falure")
+													Case &H55 Call callbacks.Item("OnError")(&H4755, "H4755 Generic Failure codes. Optical canal falure")
+													Case &H56 Call callbacks.Item("OnError")(&H4756, "H4756 Generic Failure codes. Magnetical canal falure")
+													Case &H5F Call callbacks.Item("OnError")(&H475F, "H475F Generic Failure codes. Capacitance canal falure")
+												End Select
+												m_PollingLoop = False
+												ACK()
+											Case &H80
+												'callbacks.Item("OnData")("Escrow position.")
+												Call callbacks.Item("OnInfo")(&H80, "Escrow position.")
+											Case &H81
+												'Купюра помещена в кассету
+												'callbacks.Item("OnData")("Bill stacked.")
+												m_BillAccepting = false
+												m_PollingSumm = m_PollingSumm - RUR(answer(4))
+												Call callbacks.Item("OnStacked")("RUR", RUR(answer(4)))
+												ACK()
+												If (m_PollingSumm = 0) Or (m_PollingSumm < 0) Then
+													m_StartAccept = False
+													EnableBillTypes(0)
+													Exit Sub
+												End If
+											Case &H82
+												'Купюра возвращена
+												'callbacks.Item("OnData")("Bill returned.")
+												Call callbacks.Item("OnReturned")("RUR", RUR(answer(4)))
+												ACK()
+												m_BillAccepting = false
+											Case &H00
+												'callbacks.Item("OnData")("Команда выполнена успешно.")
+											Case &HFF
+												'callbacks.Item("OnData")("Ошибка выполнения команды.")
+											Case Else 
+												'callbacks.Item("OnData")("Undefined response data. Получено " & UBound(answer)+1 & " байт :0x" & BytesToHexStr(answer))
+										End Select
+									Else
+										Call callbacks.Item("OnError")(0, "Неверная контрольная сумма " & UBound(answer)+1 & " байт :0x" & BytesToHexStr(answer))
+									End If
+
+								End If
+							Else
+								Call callbacks.Item("OnError")(0, "Получены неверные данные " & UBound(m_buffer)+1 & " байт :0x" & BytesToHexStr(m_buffer) & ")")
+								Erase m_buffer
+								m_buffer = Array()
+							End If
+						Loop While repeat
+						
+						If m_PollingLoop Then
+							Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 0.1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+						End If
+						
+					Case comEvCTS
+					Case comEvDSR
+					Case comEvCD
+					Case comEvRing
+					Case comEvEOF
+					Case Else
+				End Select
+				
+			End Sub		
+		
+			Sub Wait(Time)
+				Dim objStatus
+				Dim objWMIService : Set objWMIService = GetObject("winmgmts:\\.\root\cimv2")
+				Dim objPing : Set objPing = objWMIService.ExecQuery("Select * From Win32_PingStatus Where Address = '1.1.1.1' AND Timeout = " & Time)
+				For Each objStatus in objPing
+				Next
+			End Sub
+		
+			Function CArray(ByVal value)
+				Dim result()
+				ReDim Preserve result(LenB(value)-1)
+				For i = 1 to LenB(value)
+					result(i-1) = AscB(MidB(value, i, 1))
+				Next
+				CArray = result
+			End Function
+		
+			Function BytesToHexStr(ByVal bytes)
+				For j = LBound(bytes) to UBound(bytes) 
+					BytesToHexStr = BytesToHexStr & Right("0" & Hex(bytes(j)), 2) 
+				next
+			End Function 
+		
+			Function RightShift(pValue, pShift)
+				Dim NewValue, PrevValue, i
+				PrevValue = pValue
+				For i = 1 to pShift
+					Select Case VarType(pValue)
+						Case vbLong
+							NewValue = Int((PrevValue And "&H7FFFFFFF") / 2)
+							If PrevValue And "&H80000000" Then NewValue = NewValue Or "&H40000000"
+							NewValue = CLng(NewValue)
+						Case vbInteger
+							NewValue = Int((PrevValue And "&H7FFF") / 2)
+							If PrevValue And "&H8000" Then NewValue = NewValue Or "&H4000"
+							NewValue = CInt(NewValue)
+						Case vbByte
+							NewValue = CByte(PrevValue / 2)
+						Case Else: Err.Raise 13 ' Not a supported type
+					End Select
+					PrevValue = NewValue
+				Next
+				RightShift = PrevValue
+			End Function		
+		
+			Function GetCRC16(ByVal bytes, ByVal len)
+				Dim result, TmpCRC, i, j
+				result = &H0000&
+				For i = 0 to len-1
+					TmpCRC = result Xor bytes(i)
+					For j = 0 to 7
+						If (TmpCRC And &H0001&) <> 0 Then
+							TmpCRC = RightShift(TmpCRC, 1)
+							TmpCRC = TmpCRC Xor &H08408&
+						Else
+							TmpCRC = RightShift(TmpCRC, 1)
+						End If
+					Next
+					result = TmpCRC
+				Next
+				
+				GetCRC16 = result
+			End Function
+	
+			'
+			Function SendPacket(command, ByRef data())
+				Dim pack, bytes, b, i, j, crc16
+				bytes = Array(&H02, &H03, &H00, command)
+
+				i = UBound(bytes)
+
+				For Each b In data    
+					ReDim Preserve bytes(i + 1)
+					bytes(i + 1) = CByte(b)
+					i = i + 1
+				Next
+				
+				bytes(2) = UBound(bytes)+3
+				
+				crc16 = GetCRC16(bytes, UBound(bytes)+1)
+				
+				ReDim Preserve bytes(UBound(bytes) + 2)
+				bytes(UBound(bytes)-1) = crc16 And &HFF&
+				bytes(UBound(bytes)) = crc16 \ &H100 And &HFF&
+				
+				For j = LBound(bytes) to UBound(bytes) 
+					pack = pack & CHR(bytes(j))
+				next
+				
+				SendPacket = pack
+			End Function
+		
+			'получает ответ из буфера
+			Function GetAnswer()
+				Dim answer : answer = Array()
+				If (m_buffer(0) = &H02) And (m_buffer(1) = &H03) Then
+					If (UBound(m_buffer)+1 >= m_buffer(2)) Then
+						ReDim answer(m_buffer(2)-1)
+						For i = LBound(answer) to UBound(answer)
+							answer(i) = m_buffer(i)
+						Next
+
+						If UBound(m_buffer)+1 > m_buffer(2) Then
+							ReDim temp(UBound(m_buffer)-UBound(answer)-1)
+							For i = LBound(temp) to UBound(temp)
+								temp(i) = m_buffer(1+UBound(answer)+i)
+							Next
+							Erase m_buffer
+							m_buffer = temp
+						Else
+							Erase m_buffer
+							m_buffer = Array()
+						End If
+						
+						Dim crc16 : crc16 = GetCRC16(answer, answer(2)-2)
+						If Not (((crc16 And &HFF&) = answer(answer(2)-2)) And ((crc16 \ &H100 And &HFF&) = answer(answer(2)-1))) Then
+							Err.Raise 0, "GetAnswer", "Неверная контрольная сумма ответа"
+						End If
+					End If
+				Else
+					Erase m_buffer
+					m_buffer = Array()
+					Err.Raise 0, "GetAnswer", "В буфере находятся неверные данные"
+				End If
+				GetAnswer = answer
+			End Function
+		
+			'
+			Function get_IsOpened()
+				get_IsOpened = mscomm.PortOpen
+			End Function		
+		
+			Sub RegisterCallback(ByVal name, ByRef ref)
+				If callbacks.Exists(name) Then
+					callbacks.Item(name) = ref
+				Else
+					callbacks.Add name, ref
+				End If
+			End Sub
+			
+			'Открывает порт для отправки команд
+			Sub OpenPort(port)
+				mscomm.CommPort = port
+				mscomm.Settings = "9600,n,8,1"
+				mscomm.DTREnable = 0
+				mscomm.RTSEnable = 0
+				mscomm.RThreshold = 1
+				mscomm.SThreshold = 0
+				mscomm.InputLen = 0
+				mscomm.InputMode = 1
+				mscomm.PortOpen = True
+			End Sub
+			
+			'Закрывает порт
+			Sub ClosePort()
+				mscomm.PortOpen = False
+			End Sub			
+			
+			Sub Polling(summ, timeout)
+				If timeout > 0 Then
+					m_PollingStart = helper.GetTickCount()
+					m_PollingSumm = summ
+					m_PollingLoop = True
+					Call wmi.ExecNotificationQueryAsync(sink, "SELECT * FROM __InstanceModificationEvent WITHIN 0.1 WHERE TargetInstance ISA 'Win32_LocalTime'")
+				Else 
+					m_PollingStart = 0
+					m_PollingSumm = 0				
+					Call sink.Cancel()
+				End If
+			End Sub				
+			
+			'Command for Bill Validator to self-reset.
+			Sub Reset()
+				mscomm.Output = SendPacket(&H30, Array())
+			End Sub
+			
+			'Request for Bill Validator activity Status.
+			Sub Pool()
+				mscomm.Output = SendPacket(&H33, Array())
+			End Sub
+			
+			'
+			Sub EnableBillTypes(nominal)
+				mscomm.Output = SendPacket(&H34, Array(0,0,nominal,0,0,0))
+			End Sub			
+			
+			'Sent by Controller to send a bill in escrow to the drop cassette.
+			Sub Stack()
+				mscomm.Output = SendPacket(&H35, Array())
+			End Sub			
+			
+			'Sent by Controller to return a bill in escrow.
+			Sub Return()
+				mscomm.Output = SendPacket(&H36, Array())
+			End Sub			
+			
+			'Command for holding of Bill Validator in Escrow state.
+			Sub Hold()
+				mscomm.Output = SendPacket(&H38, Array())
+			End Sub
+			
+			Sub ACK()
+				mscomm.Output = SendPacket(&H00, Array())
+			End Sub			
+			
+			Sub NAK()
+				mscomm.Output = SendPacket(&HFF, Array())
+			End Sub
+			
+			Function ReceiveData()
+			
+			End Function
+		
+			'Identify.
+			Function Identify()
+				Identify = False
+				mscomm.RThreshold = 0
+				mscomm.InBufferCount = 0
+				mscomm.Output = SendPacket(&H37, Array())
+				
+				Dim currTick : currTick = helper.GetTickCount()
+				Dim endTick : endTick = currTick + 100
+				Dim answer : answer = Array()
+				Do While mscomm.PortOpen And UBound(answer) = -1 And currTick < endTick
+					If (mscomm.InBufferCount > 0) Then
+						Dim bytes : bytes = CArray(mscomm.Input)
+						ReDim Preserve m_buffer(UBound(m_buffer)+UBound(bytes)+1)
+						For i = LBound(bytes) to UBound(bytes)
+							m_buffer(UBound(m_buffer)-UBound(bytes) + i) = bytes(i)
+						Next
+
+						On Error Resume Next
+						answer = GetAnswer()
+						If (Err.Number <> 0) Then
+							mscomm.InBufferCount = 0
+							mscomm.RThreshold = 1
+							On Error Goto 0
+							Err.Raise Err.Number, Err.Source, Err.Description
+						End If
+						On Error Goto 0
+						
+						If (UBound(answer) > -1) Then
+							Identify = True
+							ACK()
+						End If
+					End If
+				Loop
+				mscomm.InBufferCount = 0
+				mscomm.RThreshold = 1
+			End Function
+			
+			'Request for Model, Serial Number, Software Version of Bill-to-Bill unit, Country ISO code, Asset Number.
+			Function GetIdentification()
+				mscomm.RThreshold = 0
+				mscomm.InBufferCount = 0
+				mscomm.Output = SendPacket(&H37, Array())
+				
+				Dim currTick : currTick = helper.GetTickCount()
+				Dim endTick : endTick = currTick + 100
+				Dim answer : answer = Array()
+				Do While mscomm.PortOpen And UBound(answer) = -1 And currTick < endTick
+					If (mscomm.InBufferCount > 0) Then
+						Dim bytes : bytes = CArray(mscomm.Input)
+						ReDim Preserve m_buffer(UBound(m_buffer)+UBound(bytes)+1)
+						For i = LBound(bytes) to UBound(bytes)
+							m_buffer(UBound(m_buffer)-UBound(bytes) + i) = bytes(i)
+						Next
+
+						On Error Resume Next
+						answer = GetAnswer()
+						If (Err.Number <> 0) Then
+							mscomm.InBufferCount = 0
+							mscomm.RThreshold = 1
+							On Error Goto 0
+							Err.Raise Err.Number, Err.Source, Err.Description
+						End If
+						On Error Goto 0
+						
+						If (UBound(answer) > -1) Then
+							Dim partNumber : partNumber = ""
+							For i = 3 to 17
+								If answer(i) <> &H20 Then partNumber = partNumber & Chr(answer(i)) End If
+							Next
+							
+							Dim serialNumber : serialNumber = ""
+							For i = 18 to 29
+								If answer(i) <> &H20 Then  serialNumber = serialNumber & Chr(answer(i)) End If
+							Next
+							
+							Dim assetNumber : assetNumber = ""
+							For i = 30 to 36
+								assetNumber = assetNumber & Right("0" & Hex(answer(i)), 2)
+							Next							
+							
+							GetIdentification = "{""PartNumber"":""" & partNumber & """,""SerialNumber"":""" & serialNumber & """,""AssetNumber"":""0x" & assetNumber & """}"
+							ACK()
+						End If
+					End If
+				Loop
+				mscomm.InBufferCount = 0
+				mscomm.RThreshold = 1
+			End Function
+			
+			'Request for bill type assignments.
+			Function GetBillTable()
+				'Set billTable = CreateObject("Scripting.Dictionary")
+				mscomm.Output = SendPacket(&H41, Array())
+				
+				'GetBillTable = billTable
+			End Function
+			
+		]]>
+		</script>		
+	
+	</component>	
+	
+</package>

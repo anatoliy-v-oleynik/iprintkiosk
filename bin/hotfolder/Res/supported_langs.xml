@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<supported_langs>
+  <!-- English -->
+  <lang>
+    <default>False</default>
+    <langincluded>True</langincluded>
+    <iso_name>en-US</iso_name>
+    <icon>./Res/Flags/usa.png</icon>
+  </lang>
+  <!-- Japanese -->
+  <lang>
+    <default>False</default>
+    <langincluded>False</langincluded>
+    <iso_name>ja-JP</iso_name>
+    <icon>./Res/Flags/japan.png</icon>
+  </lang>
+  <!-- Spanish -->
+  <lang>
+    <default>False</default>
+    <langincluded>False</langincluded>
+    <iso_name>es-ES</iso_name>
+    <icon>./Res/Flags/spain.png</icon>
+  </lang>
+  <!-- Portuguese Brazilian -->
+  <lang>
+    <default>False</default>
+    <langincluded>False</langincluded>
+    <iso_name>pt-BR</iso_name>
+    <icon>./Res/Flags/portugal.png</icon>
+  </lang>
+  <!-- French Canadian -->
+  <lang>
+    <default>False</default>
+    <langincluded>False</langincluded>
+    <iso_name>fr-CA</iso_name>
+    <icon>./Res/Flags/france.png</icon>
+  </lang>
+  <!-- German -->
+  <lang>
+    <default>False</default>
+    <langincluded>False</langincluded>
+    <iso_name>de</iso_name>
+    <icon>./Res/Flags/german.png</icon>
+  </lang>
+  <!-- Italian -->
+  <lang>
+    <default>False</default>
+    <langincluded>False</langincluded>
+    <iso_name>it</iso_name>
+    <icon>./Res/Flags/italian.png</icon>
+  </lang>
+  <!-- Russian -->
+  <lang>
+    <default>True</default>
+    <langincluded>True</langincluded>
+    <iso_name>ru</iso_name>
+    <icon>./Res/Flags/russian.png</icon>
+  </lang>
+</supported_langs>

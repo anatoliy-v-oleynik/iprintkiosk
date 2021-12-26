@@ -1,0 +1,36 @@
+﻿[DEVICE_STATUS]
+STATUS_UNKNOWN=СТАТУС НЕИЗВЕСТНО
+STATUS_OK=На удержание
+STATUS_PRINTING=тиснение
+STATUS_NOBUFFER=государство_НЕТ БУФЕР
+STATUS_NOSTATUS=государство_Ни одно государство
+STATUS_PAPEROUT=государство_ОКОНЧАНИЯ БУМАГИ
+STATUS_RIBBONOUT=государствоЙ_Лента Конец
+STATUS_COVEROPEN=государство_Трей открыт
+STATUS_RIBBONERR=государство_Лента Ошибка
+STATUS_PAPERERR=государство_Ошибка с бумагой
+STATUS_PAPERJAM=государство_Замятие бумаги
+STATUS_SCRAPBOXERR=государство_ОШИБКА SCRAPBOX
+STATUS_MOTCOOLING=государство_ДВИГАТЕЛЬ-Охлаждение
+STATUS_DATAERR=государство_ОШИБКА ДАННЫХ
+STATUS_SYSTEMERR=ETAT_Системная ошибка
+STATUS_HARDWAREERR=государство_ОШИБКА ОБОРУДОВАНИЯ
+STATUS_NOT_INITIALIZED=государство_Материал не инициализирован
+STATUS_OFFLINE=государство_Aвтономный
+
+STATUS_DUNITERROR=Duplex Ошибка 
+STATUS_DUNIT_SUPPLYJAM=Duplex Supply Jam
+STATUS_DUNIT_PASSJAM=Duplex Pass Jam
+STATUS_DUNIT_SHELLJAM=Duplex Shell Jam
+STATUS_DUNIT_EJECTJAM=Duplex Eject Jam
+STATUS_DUNIT_MOTORCAPSTAN=Duplex Capstan Motor
+STATUS_DUNIT_MOTORSHELL=Duplex Shell Motor
+STATUS_DUNIT_PINCH=Duplex Pinch
+STATUS_DUNIT_PASS_GUIDE=Duplex Pass Guide
+STATUS_DUNIT_SKEW_GUIDE=Duplex Skew Guide
+STATUS_DUNIT_SKEW_REJECT=Duplex Skew Reject
+STATUS_DUNIT_SHELL_ROTATE=Duplex Shell Rotate
+STATUS_DUNIT_LEVER=Duplex Lever
+STATUS_DUNIT_CUTTER=Duplex Cutter
+STATUS_DUNIT_TRAYOUT=Duplex Tray out
+STATUS_DUNIT_COVER_OUT=Duplex Cover Out

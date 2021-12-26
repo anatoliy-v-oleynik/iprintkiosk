@@ -1,0 +1,458 @@
+<?XML version="1.0"?>
+<package>
+	<?component error="True" debug="False"?>
+	
+	<comment>
+		Author: Anatoliy V Oleynik
+		E-mail: avoleyniks@yandex.ru
+	</comment>	
+	
+	<component id="ScriptCoding.Helper">
+		<registration
+			description="Script Coding Helper v1.0"
+			progid="ScriptCoding.Helper"
+			classid="{aec53aeb-7d30-4ec4-b1bf-f6c4cecea666}"
+			version="1.0"
+			/>
+		<public>
+		
+			<property name="DatePattern">
+				<get/>
+			</property>
+		
+			<method name="FormatString" internalName="FormatString">
+				<parameter name="str"/>
+			</method>
+			
+			<method name="FormatStringEx" internalName="FormatStringEx">
+				<parameter name="str"/>
+				<parameter name="flags"/>
+			</method>			
+			
+			<method name="PadString" internalName="PadString">
+				<parameter name="pad"/>
+				<parameter name="str"/>
+				<parameter name="left"/>			
+			</method>
+			
+			<method name="FormatDate" internalName="FormatDate">
+				<parameter name="date"/>
+				<parameter name="pattern"/>
+				<parameter name="utc"/>
+			</method>
+			
+			<method name="MakeDir" internalName="MakeDir">
+				<parameter name="path"/>
+			</method>
+			
+			<method name="GetTickCount" internalName="GetTickCount">
+			</method>			
+			
+		</public>
+		
+		<object id="fso" progid="Scripting.FileSystemObject" events="False"/>
+		<object id="wshshell" progid="WScript.Shell" events="False"/>
+		
+		
+		<script language="JScript">
+		<![CDATA[
+		
+			var	token = /d{1,4}|m{1,4}|yy(?:yy)?|([HhMsTt])\1?|[LloSZ]|"[^"]*"|'[^']*'/g;
+			var timezone = /\b(?:[PMCEA][SDP]T|(?:Pacific|Mountain|Central|Eastern|Atlantic) (?:Standard|Daylight|Prevailing) Time|(?:GMT|UTC)(?:[-+]\d{4})?)\b/g;
+			var timezoneClip = /[^-+\dA-Z]/g;
+		
+			var i18n = {
+				dayNames: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat",	"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+				monthNames: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+			};
+		
+			var datePattern = {
+				"default":      "ddd mmm dd yyyy HH:MM:ss",
+				ShortDate:      "m/d/yy",
+				MediumDate:     "mmm d, yyyy",
+				LongDate:       "mmmm d, yyyy",
+				FullDate:       "dddd, mmmm d, yyyy",
+				ShortTime:      "h:MM TT",
+				MediumTime:     "h:MM:ss TT",
+				LongTime:       "h:MM:ss TT Z",
+				FullDateTime:	"dddd, mmmm dd, yyyy h:MM:ss TT", 
+				IsoDate:        "yyyy-mm-dd",
+				IsoTime:        "HH:MM:ss",
+				IsoDateTime:    "yyyy-mm-dd'T'HH:MM:ss",
+				IsoUtcDateTime: "UTC:yyyy-mm-dd'T'HH:MM:ss'Z'"
+			};		
+		
+			function get_DatePattern() { 
+				if(arguments.length) {
+					return datePattern[arguments[0]];
+				} else {
+					return datePattern;			
+				}
+			};
+		
+			function FormatDate(date, pattern, utc) {
+
+				if (arguments.length == 1 && Object.prototype.toString.call(date) == "[object String]" && !/\d/.test(date)) {
+					pattern = date;
+					date = undefined;
+				}
+
+				date = date ? new Date(date) : new Date;
+				if (isNaN(date)) throw SyntaxError("invalid date");
+
+				pattern = String(datePattern[pattern] || pattern || datePattern["default"]);
+
+				if (pattern.slice(0, 4) == "UTC:") {
+					pattern = pattern.slice(4);
+					utc = true;
+				}
+
+				var	_ = utc ? "getUTC" : "get",
+					d = date[_ + "Date"](),
+					D = date[_ + "Day"](),
+					m = date[_ + "Month"](),
+					y = date[_ + "FullYear"](),
+					H = date[_ + "Hours"](),
+					M = date[_ + "Minutes"](),
+					s = date[_ + "Seconds"](),
+					L = date[_ + "Milliseconds"](),
+					o = utc ? 0 : date.getTimezoneOffset();
+				
+				var flags = {
+					d:    d,
+					dd:   PadString("00", d, true),
+					ddd:  i18n.dayNames[D],
+					dddd: i18n.dayNames[D + 7],
+					m:    m + 1,
+					mm:   PadString("00", String(m + 1), true),
+					mmm:  i18n.monthNames[m],
+					mmmm: i18n.monthNames[m + 12],
+					yy:   String(y).slice(2),
+					yyyy: y,
+					h:    H % 12 || 12,
+					hh:   PadString("00", String(H % 12 || 12), true),
+					H:    H,
+					HH:   PadString("00", String(H), true),
+					M:    M,
+					MM:   PadString("00", String(M), true),
+					s:    s,
+					ss:	  PadString("00", String(s), true),
+					l:    PadString("000", String(L), true),
+					L:    PadString("00", String(L > 99 ? Math.round(L / 10) : L), true),
+					t:    H < 12 ? "a"  : "p",
+					tt:   H < 12 ? "am" : "pm",
+					T:    H < 12 ? "A"  : "P",
+					TT:   H < 12 ? "AM" : "PM",
+					Z:    utc ? "UTC" : (String(date).match(timezone) || [""]).pop().replace(timezoneClip, ""),
+					o:    (o > 0 ? "-" : "+") + PadString(Math.floor(Math.abs(o) / 60) * 100 + Math.abs(o) % 60, 4),
+					S:    ["th", "st", "nd", "rd"][d % 10 > 3 ? 0 : (d % 100 - d % 10 != 10) * d % 10]
+				};
+
+				return pattern.replace(token, function ($0) { return $0 in flags ? flags[$0] : $0.slice(1, $0.length - 1); });
+			};
+		
+			function PadString(pad, str, left) {
+			  if (left) {
+				return String(pad + str).slice(-pad.length);
+			  } else {
+				return String(str + pad).substring(0, pad.length);
+			  }
+			};		
+		
+			function FormatString(str) {
+				for ( var i = 1; i < arguments.length; i++ )
+				{
+					str = str.split("{"+String(i-1)+"}").join(arguments[i]);
+				}
+				return str;
+			};
+		
+			function FormatStringEx(str, flags) {
+			
+				var result = str;
+				try
+				{
+					var keys = new Array();
+					for (var key in flags) keys.push(key);
+				
+					var reg = new RegExp("\\%(-?\\d+)?([" + keys.join("") + "])(\\{(.+)\\})?", "g");
+					
+					while ((reg_result = reg.exec(str)) != null)
+					{
+						var a = reg_result[4] ? FormatDate(flags[reg_result[2]], reg_result[4]) : flags[reg_result[2]];
+						result = result.replace(reg_result[0], reg_result[1] != "" ? PadString(Array(Math.abs(parseInt(reg_result[1]))+1).join(' '), a, parseInt(reg_result[1]) < 0 ? false : true) : a);
+					}
+				}
+				catch(e)
+				{
+					wshshell.LogEvent(2, e.description);
+				}
+				
+				return result;
+			};
+			
+			function MakeDir(path) {
+				try
+				{
+					var absolutePath = fso.GetAbsolutePathname(path);
+					var parentFolder = fso.GetParentFolderName(absolutePath);
+					if (!fso.FolderExists(parentFolder)) {
+						MakeDir(parentFolder);
+					}
+					if (!fso.FolderExists(absolutePath)) {
+						fso.CreateFolder(absolutePath);
+					}
+				}
+				catch(e)
+				{
+					wshshell.LogEvent(2, e.description);
+				}
+			};
+		
+			function GetTickCount() {
+				try
+				{
+					var lastBootUpTime = new ActiveXObject("WbemScripting.SWbemDateTime")
+					var localDateTime = new ActiveXObject("WbemScripting.SWbemDateTime")
+				
+					var objWMIService = GetObject("winmgmts:\\\\.\\root\\cimv2")
+					var osItems = objWMIService.ExecQuery("Select * from Win32_OperatingSystem")
+					for (var os = new Enumerator(osItems); !os.atEnd(); os.moveNext())
+					{
+						lastBootUpTime.Value = os.item().LastBootUpTime;
+						localDateTime.Value = os.item().localDateTime;
+					}
+					
+					return (parseInt(localDateTime.GetFileTime()) - parseInt(lastBootUpTime.GetFileTime())) / 10000;
+				}
+				catch(e)
+				{
+					wshshell.LogEvent(2, e.description);
+				}
+				
+				return 0;
+			};
+		
+		]]>
+		</script>
+	</component>
+	
+	<component id="ScriptCoding.Logger">
+		<registration
+			description="Script Coding Logger v1.0"
+			progid="ScriptCoding.Logger"
+			classid="{aec53aeb-7d30-4ec4-b1bf-f6c4ceceb666}"
+			version="1.0"
+			/>
+					
+		<public>
+		   
+			<method name="Log">
+				<parameter name="name"/>
+				<parameter name="filepath"/>
+				<parameter name="filename"/>
+				<parameter name="appendToFile"/>
+				<parameter name="conversionPattern"/>
+			</method>
+			
+		</public>
+		
+		<script language="JScript">
+		<![CDATA[
+			
+			var logs = {};
+			
+			function Log(name) {
+				if ((name in logs) != true)
+				{
+					logs[name] = createComponent("ScriptCoding.Log");
+					logs[name].Name = name;
+					
+				}
+				return logs[name];
+			}
+			
+		]]>
+		</script>
+		
+	</component>	
+	
+	<component id="ScriptCoding.Log">
+		<registration
+			description="Script Coding Log v1.0"
+			progid="ScriptCoding.Log"
+			classid="{aec53aeb-7d30-4ec4-b1bf-f6c4cecec666}"
+			version="1.0"
+			/>
+			
+		<public>
+		
+			<property name="File">
+				<get/>
+				<put/>
+			</property>		
+		
+			<property name="Name">
+				<get/>
+				<put/>
+			</property>		
+			
+			<property name="AppendToFile">
+				<get/>
+				<put/>
+			</property>
+			
+			<property name="ConversionPattern">
+				<get/>
+				<put/>
+			</property>
+			
+			<method name="Trace">
+				<parameter name="level"/>
+				<parameter name="message"/>
+			</method>
+		   
+			<method name="Debug">
+				<parameter name="message"/>
+			</method>
+			
+			<method name="Info">
+				<parameter name="message"/>
+			</method>
+			
+			<method name="Warn">
+				<parameter name="message"/>
+			</method>
+			
+			<method name="Error">
+				<parameter name="message"/>
+			</method>
+			
+			<method name="Fatal">
+				<parameter name="message"/>
+			</method>
+			
+		</public>
+		
+		<object id="fso" progid="Scripting.FileSystemObject" events="False"/>
+		<object id="wshshell" progid="WScript.Shell" events="False"/>
+		
+		<script language="JScript">
+		<![CDATA[
+		
+			var _file = {
+				path: ".\\logs\\",
+				name: "%D{IsoDate}.txt"
+			};
+			
+			var _name = "";
+			var _appendToFile = true;
+			var _conversionPattern = "%-5l [%D{HH:MM:ss,l}] [%N] %m%n";
+		
+			var helper = createComponent("ScriptCoding.Helper");
+		
+			function get_File() {
+				var flags = {
+					N: _name,
+					D: new Date()
+				};
+				
+				if (arguments.length > 0) {
+					flags = arguments[0];
+				}
+
+				try
+				{
+					return fso.GetAbsolutePathName(fso.BuildPath(helper.FormatStringEx(_file.path, flags), helper.FormatStringEx(_file.name, flags)));
+				}
+				catch(e)
+				{
+					
+					wshshell.LogEvent(2, e.description);
+				}
+			};
+			
+			function put_File(value) { 
+				_file = value;			
+			};
+			
+			function get_Name() { 
+				return _name;
+			};
+			
+			function put_Name(value) { 
+				_name = value;			
+			};
+		
+			function get_AppendToFile() { 
+				return _appendToFile;
+			};
+			
+			function put_AppendToFile(value) { 
+				_appendToFile = value;			
+			};
+		
+			function get_ConversionPattern() { 
+				return _conversionPattern;			
+			};
+			
+			function put_ConversionPattern(value) { 
+				_conversionPattern = value;			
+			};
+
+			function Trace(level, message) {
+				var formatString = function(str) {
+					for ( var i = 1; i < arguments.length; i++ )
+					{
+						str = str.split("{"+String(i-1)+"}").join(arguments[i]);
+					}
+					return str;
+				};
+			
+				var flags = {
+					N: _name,
+					D: new Date(),
+					l: level,
+					m: formatString.apply(null, Array.prototype.slice.call(arguments, 1)),
+					n: "\n"
+				};
+				
+				try
+				{
+					helper.MakeDir(fso.GetParentFolderName(get_File(flags)));
+					var file = fso.OpenTextFile(get_File(flags), 8, 1, 0);
+					file.WriteLine(helper.FormatStringEx(_conversionPattern, flags));
+					file.Close();
+				}
+				catch(e)
+				{
+					wshshell.LogEvent(2, e.description);
+				}
+			};
+			
+			function Debug(message) {
+				Trace.apply(null, new Array("DEBUG").concat(Array.prototype.slice.call(arguments, 0)));
+			};
+			
+			function Info(message) {
+				Trace.apply(null, new Array("INFO").concat(Array.prototype.slice.call(arguments, 0)));
+			};
+			
+			function Warn(message) {
+				Trace.apply(null, new Array("WARN").concat(Array.prototype.slice.call(arguments, 0)));
+			};
+			
+			function Error(message) {
+				Trace.apply(null, new Array("ERROR").concat(Array.prototype.slice.call(arguments, 0)));
+			};
+			
+			function Fatal(message) {
+				Trace.apply(null, new Array("FATAL").concat(Array.prototype.slice.call(arguments, 0)));
+			};			
+		
+		]]>
+		</script>
+		
+	</component>
+
+</package>

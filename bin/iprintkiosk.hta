@@ -1,0 +1,298 @@
+﻿<html>
+<head>
+  <title>iPrintKiosk - print your emotions</title>
+  <meta HTTP-EQUIV=Content-Type content='text/html; charset=utf-8'>
+  <meta http-equiv="x-ua-compatible" content="IE=9" />
+
+	<HTA:APPLICATION
+		ID="iPrintKiosk"
+		APPLICATIONNAME="iPrintKiosk"
+		BORDER="none"
+		BORDERSTYLE="sunken"
+		CAPTION="no"
+		CONTEXTMENU="no"
+		MAXIMIZEBUTTON="no"
+		MINIMIZEBUTTON="no"
+		SCROLL="no"
+		SHOWINTASKBAR="no"
+		SINGLEINSTANCE="yes"
+		windowState="maximize"
+		SYSMENU="no">	
+
+	<object id="acceptor" classid="clsid:2c2dee90-a750-49c0-a29c-622b4debe0ae" width="0px", height="0px">
+		<param name="Protocol" value="CCNET" />
+		<param name="Port" value="3" />
+		<param name="BillTable" value="0,0,0,0,0,0" />
+		<param name="Log" value="CCNET" />
+	</object>		
+
+	<object id="log" classid="clsid:aec53aeb-7d30-4ec4-b1bf-f6c4cecec666" width="0px", height="0px">
+	</object>	
+
+	<script LANGUAGE="JavaScript" FOR="acceptor" EVENT="OnAccepted()">
+		main.acceptor_OnAccepted();
+	</script>
+
+	<script LANGUAGE="JavaScript" FOR="acceptor" EVENT="OnStacked(valuta, nominal)">
+	
+		try
+		{
+			XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%" ) + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%" ) + "&command=notify-bill-stacked&amount=" + nominal.toString() , false);
+			XmlHttp.send();
+		}
+		catch (e) { }	
+	
+		main.acceptor_OnStacked(valuta, nominal);
+	</script>
+
+	<script LANGUAGE="JavaScript" FOR="acceptor" EVENT="OnReturned(valuta, nominal)">
+		main.acceptor_OnReturned(valuta, nominal);
+	</script>
+
+	<script LANGUAGE="JavaScript" FOR="acceptor" EVENT="OnError(number, description)">
+		main.acceptor_OnError(number, description);
+	</script>
+	
+	<script LANGUAGE="JavaScript" FOR="acceptor" EVENT="OnData(data)">
+		main.acceptor_OnData(data);
+	</script>	
+	
+	<script language="VBScript">
+
+		Function GetFiles(path)
+			Dim Folder, File, files
+			Set Folder = FSO.GetFolder(FSO.GetAbsolutePathName(path))
+			files = ""
+			For Each File In Folder.Files
+				files = files + "<file name='" + File.Name + "' ext='" + FSO.GetExtensionName(File.Name) + "'>" + File.Path + "</file>"
+			Next
+			GetFiles = "<files>" + files + "</files>" 
+		End Function
+		
+	</script>
+	
+	<script Language="JavaScript">
+		var isMonitorSleep = false;
+		var isReady = false; 
+		var lastFlashAlive = new Date();
+		var lastFlashAliveNote = "";
+		var lastUserActivity = new Date();
+		
+		
+		var XmlHttp = new ActiveXObject("Msxml2.ServerXMLHTTP.3.0");
+		var FSO = new ActiveXObject("Scripting.FileSystemObject");
+		var APP =  new ActiveXObject("Shell.Application");
+		var SCH =  new ActiveXObject("ScriptCoding.Helper");
+		var WshShell =  new ActiveXObject("WScript.Shell");
+		
+		window.onload = function()
+		{
+			log.Error("HTA window.onload");
+			
+			var file = FSO.GetFile(log.File);
+			var LogFolder = file.ParentFolder;
+			
+			setInterval(function()
+			{
+				var currDateTime = new Date();
+				var isWorkingTime = currDateTime.getHours() >= 9 && currDateTime.getHours() <= 23
+				
+				
+				if (((currDateTime - lastFlashAlive) / 1000 / 60) >= 30)
+				{
+					Shutdown(encodeURIComponent("Последний отклик от Flash более 30 минут назад."));
+				}
+			
+				if (((currDateTime - lastUserActivity) / 1000 / 60) >= 120)
+				{
+					if (lastFlashAliveNote = "common.activity::HomeActivity")
+					{
+						if (isWorkingTime)
+						{						
+							Shutdown(encodeURIComponent("Последняя активность пользователя более 2 часов назад."));
+						}
+					}
+				}
+				
+				if (!isWorkingTime && !isMonitorSleep)
+				{
+					isMonitorSleep = true;
+				}
+				
+				if (isWorkingTime && isMonitorSleep)
+				{
+					isMonitorSleep = false;
+				}
+				
+				NotifyHtaAlive(isWorkingTime ? "Рабочее время" : "Не рабочее время");
+				
+			}, 1000 * 60 * 1);		
+		
+			isReady = true;
+		};
+
+		window.onunload = function()
+		{
+			main.OnCloseWindow();
+		};	
+		
+		function Shutdown(note)
+		{
+			try
+			{
+				XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%" ) + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%" ) + "&command=notify-shutdown" + (note ? "&note=" + note : ""), false);
+				XmlHttp.send();
+			}
+			catch (e)  { }			
+		
+			APP.ShellExecute("shutdown.exe", "-r -f -t 5 -c \"Повторите попытку после перезагрузки. Телефон поддержки 702-423.\"", FSO.GetParentFolderName(iPrintKiosk.commandLine), "runas", 0);
+		};
+		
+		function PrintPhoto(data, amount)
+		{		
+			var filename = SaveFile(data, ".\\hotfolder\\prints\\4x6\\" + SCH.FormatDate(new Date(), "yyyymmdd_HHMMss") + ".jpg");
+
+			try
+			{
+				XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%" ) + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%" ) + "&command=notify-print-photo&amount=" + amount.toString() + ((filename.length > 0) ? "&filename=" + filename : ""), false);
+				XmlHttp.send();	
+			}
+			catch (e)  { }			
+			
+			return filename;
+		}
+		
+		function SaveFile(data, filename)
+		{
+			try
+			{	
+				filename = FSO.GetAbsolutePathName(filename);
+			
+				SCH.MakeDir(FSO.GetParentFolderName(filename));
+			
+				var xml = new ActiveXObject("Msxml2.DOMDocument.6.0");
+				var element = xml.createElement("data");
+				element.dataType = "bin.base64";
+				element.text = data;
+
+				var stream =  new ActiveXObject("ADODB.Stream");
+				stream.Type = 1;
+				stream.Open();
+				stream.Write(element.nodeTypedValue);
+				stream.SaveToFile(filename, 2);
+				
+				delete xml;
+				delete element;
+				delete stream;
+				
+				return filename;
+			}
+			catch (e)
+			{
+				Logging(e.message, "savefile");
+			}
+			
+			return "";
+		}
+		
+		function NotifyUserActivity(note)
+		{
+			try
+			{
+				XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%" ) + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%" ) + "&command=notify-user-activity&note=" + note, true);
+				XmlHttp.send();
+			}
+			catch (e) { }					
+		}
+		
+		function NotifyFlashAlive(note)
+		{
+			try
+			{
+				lastFlashAlive = new Date();
+				lastFlashAliveNote = note;
+			
+				XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%" ) + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%" ) + "&command=notify-flash-alive&note=" + note, true);
+				XmlHttp.send();
+			}
+			catch (e) { }				
+		}
+		
+		function NotifyHtaAlive(note)
+		{
+			try
+			{
+				XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%" ) + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%" ) + "&command=notify-hta-alive&note=" + note, true);
+				XmlHttp.send();
+			}
+			catch (e) { }
+		}
+		
+		function UsePromo(code)
+		{
+			try
+			{
+				XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%" ) + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%" ) + "&command=use-promo&code=" + code, false);
+				XmlHttp.send();
+				return XmlHttp.responseText;
+			}
+			catch (e) { }
+			
+			return "{ \"error\" : { \"message\": \"Тип не поддерживается.\" } }";
+		}
+		
+		function Logging(message, section)
+		{
+			try
+			{
+				XmlHttp.open("GET", WshShell.ExpandEnvironmentStrings( "%GS_URL%" ) + "?username=" +  WshShell.ExpandEnvironmentStrings( "%GS_USER%" ) + "&password=" + WshShell.ExpandEnvironmentStrings( "%GS_PASS%" ) + "&command=logging&message=" + message + (section ? "&section=" + section : ""), false);
+				XmlHttp.send();		
+			}
+			catch (e) { }
+		}		
+		
+		function isContainerReady() 
+		{
+			return isReady; 
+		};
+		
+		function getSWF(movieName) 
+		{ 
+			if (navigator.appName.indexOf("Microsoft") != -1) 
+			{ 
+				return window[movieName]; 
+			} 
+			else 
+			{ 
+				return document[movieName]; 
+			} 
+		};
+
+	</script>
+
+	<style>
+		.overlay {
+			position: fixed;
+			width: 100%;
+			height: 100%;
+			left: 0;
+			top: 0;
+			background: rgba(51,51,51,0.7);
+			z-index: 10;
+		}
+	</style>		
+</head>
+<body style="margin:0" scroll="no">
+	<object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="100%" height="100%" id="main" align="center" class="overlay">
+		<param name="FlashVars" value="OffsetX1=-0.5&OffsetX2=-0.5&OffsetY1=1&OffsetY2=1&kid=iprintkiosk.001&ServerURL=http://www.iprintkiosk.ru&UnitPrice=50&HomeTimeout=120&ServerCheckTimeout=300"/>
+		<param name="scale" value="showall" />
+		<param name="salign" value="T" />
+		<param name="allowScriptAccess" value="always" />
+		<param name="allowFullScreen" value="true" /> 
+		<param name="movie" value="iprintkiosk.swf" />
+		<param name="menu" value="false" />
+		<param name="quality" value="high" />
+		<param name="bgcolor" value="#D8DBE2" />
+	</object>
+</body>
+</html>

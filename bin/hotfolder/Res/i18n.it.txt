@@ -1,0 +1,164 @@
+﻿[MAIN_WINDOW]
+Description=Utilità di Hot Folder Print
+Printers=Stampanti
+PrinterStatus=Stato stampante
+
+[BUTTON_TEXT]
+Okay=OK
+
+[PRINTER_INFO]
+Printer=Stampante:
+Status=Stato:
+Sheets=Fogli:
+SerialNumber=Numero di Serie:
+Firmware=Firmware:
+CVD=CVD:
+MediaType=Tipo di carta:
+LifeCounter=Contatore copie:
+HeadTemp=Testina Temp. °C:
+Humidity=% umidità:
+MatCounter=Contatore opaco:
+ICMFile=File ICM:
+
+[PROC_STATUS]
+Initializing=Inizializzazione
+Running=In funzione
+NoPrinter=Nessuna stampante rilevata
+Paused=Fermato
+ShuttingDown=In spegnimento
+
+[PrintSizes]
+s3_5x5=9х13 cm
+s4x4=10х10 cm
+s4x5=10х13 cm
+s4x53=10х13,5 cm
+s4x6=10х15 cm
+s2x6=5х15 cm
+s4x7=10х18 cm 
+s4x8=10х20 cm
+s4x10=10х25 cm
+s4x12=10х30 cm
+s5x5=13х13 cm
+s5x7=13х18 cm
+s6x45=11x15 cm
+s6x8=15х20 cm
+s6x9=15х23 cm
+s8x8=20х20 cm
+s8x10=20х25 cm
+s8x12=20х30 cm
+s8x10D =20х25D cm
+s8x10_50D =20х26D cm 
+s8x10_75D =20х27D cm
+s8x12D =20х30D cm
+s8x4x3D =20х10D x3 cm
+s8x6x2D =20х15D х2 cm
+
+[ADMIN]
+TabSystem=Sistema
+TabBorders=Bordi
+ArchiveImages=Archivio Immagini
+ArchiveImagesChecked=Si
+ArchiveImagesUnChecked=No
+StartMinimized=Inizio Ridotto
+StartMinimizedChecked=Si
+StartMinimizedUnChecked=No
+ColorScience=Auto Correzione
+ColorScienceChecked=Si
+ColorScienceUnChecked=No
+DragDropModeChecked=Si
+DragDropModeUnChecked=No
+Revert=Ritornare
+SaveAndExit=Salvare & Uscire
+SaveAndExitToDesktop=Salvare & uscire sul Desktop
+PrintCopies=Stampe
+FinishType=Tipo finitura
+Resolution=Risoluzione
+MinPaperLeftForError=Carta in esaurimento - Errore
+MinPaperLeftForWarning=Carta in esaurimento - Avviso
+Settings=Impostazioni
+DragDropMode=Modalità trascinamento selezione
+
+[PRINTING]
+Printing=Stampa
+PrintSize=Dimensioni stampa
+FindImages=Trova immagine/i
+Print=Stampa
+Title=Stampe
+PleaseWait=Elaborazione in corso... Attendere.
+
+[ADJUSTCOLOR]
+ColorAdjustment=Colori
+UseICM=Usa ICM
+UseAutoColor=Usa correzione colore auto
+SyncChannels=Sinc canali
+Red=Rosso
+Green=Verde
+Blue=Blu
+Chroma=Saturazione
+Sharp=Nitidezza
+Apply=Applica
+Brightness=Luminosità
+Gamma=Gamma
+Contrast=Contrasto
+RGB=RGB
+ResetAllColor=Reimposta tutti i colori
+
+[BORDER_MGMT]
+SelectPrintSize=Selezione Formato di Stampa
+Enabled=Attiva
+DeleteMSG=Stai per cancellare {0},\n sicuro di voler continuare?
+DeleteTitle=Cancellazione Bordo
+Import=Importa bordo
+Edit=Modifica
+Delete=Elimina
+Borders=Bordi
+
+[BORDER_IMPORT]
+Title=Bordi
+Horizontal=Orizzontale
+Vertical=Verticale
+LoadHorizontal=Caricamento orizzontale
+LoadVertical=Caricamento verticale
+BorderName=Nome cornice
+Cancel=Annulla
+Ok=OK
+
+[BORDER_IMPORT_MSG]
+UniqueName=È necessario un nome di bordo univoco
+HorizontalRequired=Per continuare, occorre specificare un bordo orizzontale
+VerticalRequired=Per continuare, occorre specificare un bordo verticale
+
+[ICM]
+ICM=ICM
+PrinterType=Tipo stampante
+AssignICM=Assegna nuovo ICM
+ResetAllICM=Reimposta tutti ICM
+
+[LOGGING]
+Logging=Accesso
+UserKey=ID utente
+UseOnlineLogging=Usa accesso online
+ServerIP=Indirizzo IP server
+ServerPort=Porta server
+Apply=Applica
+
+[COLORADJUST]
+TabColorAdjust=Aggiustamento colori
+R=R
+G=G
+B=B
+
+[ERROR_MESSAGES]
+UnsupportedPrinterTitle=Errore: Rilevata stampante non supportata
+UnsupportedPrinter=Grazie per utilizzare  Hot Folder Print Utility di DNP. Hot Folder Print ha rilevato una stampante non supportata e non e' possibile mandare immagini in stampa. Si consiglia di consultare il Manuale Operativo per visionare l'elenco delle stampanti supportate. Grazie.
+
+[ABOUT]
+About=Circa
+CompanyName=DNP Hot Folder Print
+Version=Versione
+Copyright=© 2014 DNP Imagingcomm America Corporation. Tutti i diritti riservati.
+Update=Controllare gli aggiornamenti
+
+[FILENOTFOUND]
+Missing=mancante
+Ok=OK

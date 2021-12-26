@@ -1,0 +1,19 @@
+﻿[Media_Types_Short]
+-1=Unknown
+1=CSP_L (3.5x5)
+2=CSP_2L (5x7)
+3=CSP_PC (4x6)
+4=CSP_A5 (6x8)
+5=CSP_A5W (6x9)
+31=CSP_8X10 (8x10)
+32=CSP_8X12 (8x12)
+
+[Media_Types_Size]
+-1=Unknown
+1=3.5x5
+2=5x7
+3=4x6
+4=6x8
+5=6x9
+31=8x10
+32=8x12

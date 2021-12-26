@@ -1,0 +1,164 @@
+﻿[MAIN_WINDOW]
+Description=Utilitário Hot Folder Print
+Printers=Impressoras
+PrinterStatus=Status da impressora
+
+[BUTTON_TEXT]
+Okay=OK
+
+[PRINTER_INFO]
+Printer=Impressora:
+Status=Status:
+Sheets=Folhas restantes:
+SerialNumber=Número de série:
+Firmware=Firmware:
+CVD=CVD:
+MediaType=Tipo de mídia:
+LifeCounter=Contador de vida útil:
+HeadTemp=Temperatura do Cabeçote °C:
+Humidity=Umidade %:
+MatCounter=Contador mate:
+ICMFile=Arquivo ICM:
+
+[PROC_STATUS]
+Initializing=Inicialização
+Running=Operação
+NoPrinter=Nenhuma impressora encontrada
+Paused=Pausada
+ShuttingDown=Desligando
+
+[PrintSizes]
+s3_5x5=9х13 cm
+s4x4=10х10 cm
+s4x5=10х13 cm
+s4x53=10х13,5 cm
+s4x6=10х15 cm
+s2x6=5х15 cm
+s4x7=10х18 cm 
+s4x8=10х20 cm
+s4x10=10х25 cm
+s4x12=10х30 cm
+s5x5=13х13 cm
+s5x7=13х18 cm
+s6x45=11x15 cm
+s6x8=15х20 cm
+s6x9=15х23 cm
+s8x8=20х20 cm
+s8x10=20х25 cm
+s8x12=20х30 cm
+s8x10D =20х25D cm
+s8x10_50D =20х26D cm 
+s8x10_75D =20х27D cm
+s8x12D =20х30D cm
+s8x4x3D =20х10D x3 cm
+s8x6x2D =20х15D х2 cm
+
+[ADMIN]
+TabSystem=Sistema
+TabBorders=Bordas
+ArchiveImages=Imagens do arquivo
+ArchiveImagesChecked=Sim
+ArchiveImagesUnChecked=Não
+StartMinimized=Iniciar minimizado
+StartMinimizedChecked=Sim
+StartMinimizedUnChecked=Não
+ColorScience=Autocorreção
+ColorScienceChecked=Sim
+ColorScienceUnChecked=Não
+DragDropModeChecked=Sim
+DragDropModeUnChecked=Não
+Revert=Reverter
+SaveAndExit=Salvar e sair
+SaveAndExitToDesktop=Salvar e sair para a área de trabalho
+PrintCopies=Impressões
+FinishType=Tipo de acabamento
+Resolution=Resolução
+MinPaperLeftForError=Impressões mínimas restantes - Erro
+MinPaperLeftForWarning=Impressões mínimas restantes - Advertência
+Settings=Configurações
+DragDropMode=Arraste e Derrube Modo
+
+[PRINTING]
+Printing=Impressão
+PrintSize=Tamanho da impressão
+FindImages=Encontrar imagens
+Print=Impressão
+Title=Impressões
+PleaseWait=Em operação, aguarde...
+
+[ADJUSTCOLOR]
+ColorAdjustment=Cores
+UseICM=Use ICM
+UseAutoColor=Use autocorreção da cor
+SyncChannels=Sincronizar canais
+Red=Vermelho
+Green=Verde
+Blue=Azul
+Chroma=Saturation
+Sharp=Nitidez
+Apply=Aplicar
+Brightness=Brilho
+Gamma=Gama
+Contrast=Contraste
+RGB=RGB
+ResetAllColor=Restaurar todas as cores
+
+[BORDER_MGMT]
+SelectPrintSize=Selecionar tamanho da impressão
+Enabled=Habilitado
+DeleteMSG=Você está prestes a excluir {0},\n tem certeza que deseja continuar?
+DeleteTitle=Excluir borda
+Import=Importar borda
+Edit=Editar
+Delete=Excluir
+Borders=Bordas
+
+[BORDER_IMPORT]
+Horizontal=Horizontal
+Vertical=Vertical
+LoadHorizontal=Carregar horizontal
+LoadVertical=Carregar vertical
+BorderName=Nome da borda
+Cancel=Cancelar
+Ok=OK
+Title=Bordas
+
+[BORDER_IMPORT_MSG]
+UniqueName=É necessário um nome de borda exclusivo
+HorizontalRequired=É necessário informar uma borda horizontal para continuar
+VerticalRequired=É necessário informar uma borda vertical para continuar
+
+[COLORADJUST]
+TabColorAdjust=Ajuste da cor
+R=R
+G=G
+B=B
+
+[ICM]
+ICM=ICM
+PrinterType=Tipo de impressora
+AssignICM=Atribuir novo ICM
+ResetAllICM=Restaurar todos ICMs
+
+[LOGGING]
+Logging=Fazer login
+UserKey=ID do usuário
+UseOnlineLogging=Usar o login online
+ServerIP=Endereço IP do servidor
+ServerPort=Porta do servidor
+Apply=Aplicar
+
+[ERROR_MESSAGES]
+UnsupportedPrinterTitle=Erro: Detectado dispositivo não suportado
+UnsupportedPrinter=Obrigado por usar o utilitário Hot Folder Print da DNP. Hot Folder Print detectou uma impressora não suportada e não consegue enviar imagens para serem impressas neste dispositivo. Consulte o guia do usuário para obter uma lista das impressoras suportadas. Obrigado.
+
+[ABOUT]
+About=Sobre
+CompanyName=DNP Hot Folder Print
+Version=Versão
+Copyright=© 2014 DNP Imagingcomm America Corporation. Todos os direitos reservados.
+Update=Verificar se há atualizações
+
+[FILENOTFOUND]
+Missing=faltando
+Ok=OK

@@ -1,0 +1,164 @@
+﻿[MAIN_WINDOW]
+Description=Hot Folder Print Programm
+Printers=Drucker
+PrinterStatus=Druckerstatus
+
+[BUTTON_TEXT]
+Okay=OK
+
+[PRINTER_INFO]
+Printer=Drucker:
+Status=Status:
+Sheets=Bilder:
+SerialNumber=Seriennummer:
+Firmware=Firmware:
+CVD=CVD:
+MediaType=Papiertyp:
+LifeCounter=Druckzähler:
+HeadTemp=Kopftemp. °C:
+Humidity=Feuchte %:
+MatCounter=Mattbildzähler:
+ICMFile=ICM-Datei:
+
+[PROC_STATUS]
+Initializing=Start
+Running=In Betrieb
+NoPrinter=Drucker nicht gefunden
+Paused=Abbruch
+ShuttingDown=Herunterfahren
+
+[PrintSizes]
+s3_5x5=9х13 cm
+s4x4=10х10 cm
+s4x5=10х13 cm
+s4x53=10х13,5 cm
+s4x6=10х15 cm
+s2x6=5х15 cm
+s4x7=10х18 cm 
+s4x8=10х20 cm
+s4x10=10х25 cm
+s4x12=10х30 cm
+s5x5=13х13 cm
+s5x7=13х18 cm
+s6x45=11x15 cm
+s6x8=15х20 cm
+s6x9=15х23 cm
+s8x8=20х20 cm
+s8x10=20х25 cm
+s8x12=20х30 cm
+s8x10D =20х25D cm
+s8x10_50D =20х26D cm 
+s8x10_75D =20х27D cm
+s8x12D =20х30D cm
+s8x4x3D =20х10D x3 cm
+s8x6x2D =20х15D х2 cm
+
+[ADMIN]
+TabSystem=System
+TabBorders=Bildrahmen
+ArchiveImages=Bild speichern
+ArchiveImagesChecked=Ja
+ArchiveImagesUnChecked=Nein
+StartMinimized=Start minimiert
+StartMinimizedChecked=Ja
+StartMinimizedUnChecked=Nein
+ColorScience=Auto-Correct
+ColorScienceChecked=An
+ColorScienceUnChecked=Aus
+DragDropModeChecked=An
+DragDropModeUnChecked=Aus
+Revert=Zurück
+SaveAndExit=Speichern & Schließen
+SaveAndExitToDesktop=Speichern & Verlassen zum Desktop
+PrintCopies=Abzüge
+FinishType=Oberflächenfinish
+Resolution=Auflösung
+MinPaperLeftForError=Verbliebene Mind.-Zahl Abzüge - Fehler
+MinPaperLeftForWarning=Verbliebene Mind.-Zahl Abzüge - Warnung
+Settings=Einstellungen
+DragDropMode=Ziehen&Ablegen-Modus
+
+[PRINTING]
+Printing=Druckvorgang läuft
+PrintSize=Druckformat
+FindImages=Bild(er) suchen
+Print=Abzug
+Title=Abzüge
+PleaseWait=Vorgang läuft, bitte warten
+
+[ADJUSTCOLOR]
+ColorAdjustment=Farben
+UseICM=ICM verwenden
+UseAutoColor=Autom. Farbkorrektur verwenden
+SyncChannels=Kanäle synchr.
+Red=Rot
+Green=Grün
+Blue=Blau
+Chroma=Sättigung
+Sharp=Schärfe
+Apply=Übernehmen
+Brightness=Helligkeit
+Gamma=Gamma
+Contrast=Kontrast
+RGB=RGB
+ResetAllColor=Alle Farben zurücksetzen
+
+[BORDER_MGMT]
+SelectPrintSize=Format wählen
+Enabled=Aktiviert
+DeleteMSG=Sie sind dabei, {0},\n zu löschen, wollen Sie fortfahren?
+DeleteTitle=Rahmen löschen
+Import=Rand importieren
+Edit=Bearbeiten
+Delete=Löschen
+Borders=Ränder
+
+[BORDER_IMPORT]
+Title=Ränder
+Horizontal=Horizontal
+Vertical=Vertikal
+LoadHorizontal=Horizontal laden
+LoadVertical=Vertikal laden
+BorderName=Name Rahmen
+Cancel=Abbrechen
+Ok=OK
+
+[BORDER_IMPORT_MSG]
+UniqueName=Eindeutige Randbezeichnung erforderlich
+HorizontalRequired=Zum Fortfahren horizontalen Rand angeben
+VerticalRequired=Zum Fortfahren vertikalen Rand angeben
+
+[ICM]
+ICM=ICM
+PrinterType=Druckertyp
+AssignICM=Neues ICM zuordnen
+ResetAllICM=Alle ICM zurücksetzen
+
+[LOGGING]
+Logging=Protokollierung
+UserKey=Benutzer-ID
+UseOnlineLogging=Online-Protokollierung verwenden
+ServerIP=Server-IP-Adresse
+ServerPort=Server-Port
+Apply=Übernehmen
+
+[COLORADJUST]
+TabColorAdjust=Farbajustierung
+R=R
+G=G
+B=B
+
+[ERROR_MESSAGES]
+UnsupportedPrinterTitle=Fehler: nicht unterstütztes Gerät erkannt
+UnsupportedPrinter=Danke, dass Sie Hot Folder Print von DNP nutzen. HFP hat ein nicht unterstütztes Gerät erkannt, an das es keine Bilder übertragen kann. Bitte lesen Sie im Benutzerhandbuch nach, welche Geräte unterstützt werden. Danke!
+
+[ABOUT]
+About=über
+CompanyName=DNP Hot Folder Print
+Version=version
+Copyright=© 2014 DNP Imagingcomm America Corporation. Alle Rechte vorbehalten.
+Update=Nach Updates
+
+[FILENOTFOUND]
+Missing=missing
+Ok=Ok

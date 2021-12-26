@@ -1,0 +1,164 @@
+﻿[MAIN_WINDOW]
+Description=Utilidad Hot Folder Print
+Printers=Impresoras
+PrinterStatus=Estado de la impresora
+
+[BUTTON_TEXT]
+Okay=OK
+
+[PRINTER_INFO]
+Printer=Impresora:
+Status=Estado:
+Sheets=Copias:
+SerialNumber=Número serie:
+Firmware=Firmware:
+CVD=CVD:
+MediaType=Tipo consumible:
+LifeCounter=Contador copias:
+HeadTemp=Temp. cabeza °C:
+Humidity=% de humedad:
+MatCounter=Contador Mate:
+ICMFile=Archivo ICM:
+
+[PROC_STATUS]
+Initializing=Inicialización
+Running=Funcionando
+NoPrinter=No impresora encontrada
+Paused=Detenido
+ShuttingDown=Apagando
+
+[PrintSizes]
+s3_5x5=3.5x5 (9x13 cm)
+s4x4=4x4 (10x10 cm)
+s4x5=4x5 (10x13 cm)
+s4x53=4x5.3 (10x13,5 cm)
+s4x6=4x6 (10x15 cm)
+s2x6=2x6 (5x10 cm)
+s4x7=4x7 (10x18 cm)
+s4x8=4x8 (10x20 cm)
+s4x10=4x10 (10x25 cm)
+s4x12=4x12 (10x30 cm)
+s5x5=5x5 (13x13 cm)
+s5x7=5x7 (13x18 cm)
+s6x45=4.5x6 (11x15 cm)
+s6x8=6x8 (15x20 cm)
+s6x9=6x9 (15x23 cm)
+s8x8=8x8 (20x20 cm)
+s8x10=8x10 (20x25 cm)
+s8x12=8x12 (20x30 cm)
+s8x10D = 8x10D (20x25 cm)
+s8x10_50D = 8x10.5D (20x26 cm)
+s8x10_75D = 8x10.75D (20x27 cm)
+s8x12D = 8x12D (20x30 cm)
+s8x4x3D = 8x4x3D (20x10 cm x3)
+s8x6x2D = 8x6x2D (20x15 cm x2)
+
+[ADMIN]
+TabSystem=Sistema
+TabBorders=Marcos
+ArchiveImages=Imagenes Guardadas
+ArchiveImagesChecked=Sí
+ArchiveImagesUnChecked=No
+StartMinimized=Reducir Iniciar
+StartMinimizedChecked=Sí
+StartMinimizedUnChecked=No
+ColorScience=Corrección Automática
+ColorScienceChecked=Sí
+ColorScienceUnChecked=No
+DragDropModeChecked=Sí
+DragDropModeUnChecked=No
+Revert=Volver
+SaveAndExit=Guardar y salir
+SaveAndExitToDesktop=Salir al escritorio
+PrintCopies=Impresiones
+FinishType=Acabado
+Resolution=Resolución
+MinPaperLeftForError=Mínimo impresiones restantes  - Error
+MinPaperLeftForWarning=Mínimo impresiones restantes - Advertencia
+Settings=Ajustes
+DragDropMode=Modo Arrastrar-Soltar
+
+[PRINTING]
+Printing=Impresión
+PrintSize=Tamaño de impresión
+FindImages=Hallar imágen(es)
+Print=Impresión
+Title=Impresiones
+PleaseWait=Trabajando, Por favor espere...
+
+[ADJUSTCOLOR]
+ColorAdjustment=Colores
+UseICM=Usar ICM
+UseAutoColor=Usar Correción automática de color
+SyncChannels=Sinc. canales
+Red=Rojo
+Green=Verde
+Blue=Azul
+Chroma=Saturación
+Sharp=Nítido
+Apply=Aplicar
+Brightness=Brillo
+Gamma=Gamma
+Contrast=Contraste
+RGB=RGB
+ResetAllColor=Restablecer todos los colores
+
+[BORDER_MGMT]
+SelectPrintSize=Seleccionar Formato Impresión
+Enabled=Activado
+DeleteMSG=Ud. está a punto de borrar {0},\n ¿Desea continuar?
+DeleteTitle=Suprimir Marco
+Import=Importar borde
+Edit=Editar
+Delete=Eliminar
+Borders=Bordes
+
+[BORDER_IMPORT]
+Title=Bordes
+Horizontal=Horizontal
+Vertical=Vertical
+LoadHorizontal=Cargar Horizontal
+LoadVertical=Cargar Vertical
+BorderName=Nombre Marco
+Cancel=Cancelar
+Ok=OK
+
+[BORDER_IMPORT_MSG]
+UniqueName=Se requiere un nombre de borde único
+HorizontalRequired=Se debe suministrar un borde horizontal para continuar.
+VerticalRequired=Se debe suministrar un borde vertical para continuar.
+
+[ICM]
+ICM=ICM
+PrinterType=Tipo de impresora
+AssignICM=Asignar nuevo ICM
+ResetAllICM=Restablecer todos los ICMs
+
+[LOGGING]
+Logging=Inicio de sesión
+UserKey=Id. del usuario
+UseOnlineLogging=Usar Inicio de sesión en línea
+ServerIP=Dirección IP del servidor
+ServerPort=Puerto del servidor
+Apply=Aplicar
+
+[COLORADJUST]
+TabColorAdjust=Ajuste de colores
+R=R
+G=G
+B=B
+
+[ERROR_MESSAGES]
+UnsupportedPrinterTitle=Error: Dispositivo no compatible detectado
+UnsupportedPrinter=Gracias por usar la utilitidad Hot Folder Print de DNP. Hot Folder Print ha detectado una impresora no compatible, pues no puede enviar unas imagenes para imprimir a este equipo. Por favor consultar la lista de impresoras compatibles que se encuentran en la guía del usuario. Gracias.
+
+[ABOUT]
+About=Acerca
+CompanyName=DNP Hot Folder Print
+Version=Versión
+Copyright=© 2014 DNP Imagingcomm America Corporation. Todos los derechos reservados.
+Update=Comprobar si hay actualizaciones
+
+[FILENOTFOUND]
+Missing=desaparecidos
+Ok=Ok

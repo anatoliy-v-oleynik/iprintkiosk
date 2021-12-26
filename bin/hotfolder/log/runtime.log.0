@@ -1,0 +1,100 @@
+2016-02-02 13:56:07.0996 [1] INFO - HotPrints Started
+2016-02-02 13:56:07.8514 [1] INFO - Populating Printers
+2016-02-02 13:56:07.8795 [5] INFO - Polling for printers started
+2016-02-02 13:56:10.8873 [5] INFO - Populating Printers
+2016-02-02 13:56:13.8878 [5] INFO - Populating Printers
+2016-02-02 13:56:15.7785 [1] INFO - InputManager Initializing
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 10
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 40
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 100
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 680
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 690
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 120
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 130
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 1200
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 1210
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 1220
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 1300
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 1310
+2016-02-02 13:56:15.7918 [1] WARN - Unable to locate PrintSize for: 1320
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 1400
+2016-02-02 13:56:15.7977 [1] INFO - InputManager Initialized
+2016-02-02 13:56:15.7977 [1] INFO - InputManager Initializing
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 10
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 40
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 100
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 680
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 690
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 120
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 130
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 1200
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 1210
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 1220
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 1300
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 1310
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 1320
+2016-02-02 13:56:15.7977 [1] WARN - Unable to locate PrintSize for: 1400
+2016-02-02 13:56:15.7977 [1] INFO - InputManager Initialized
+2016-02-02 13:56:15.9754 [1] INFO - Applying color science
+2016-02-02 13:56:15.9754 [1] INFO - ColorScience Initializing
+2016-02-02 13:56:16.0293 [1] ERROR - Unable to read registry key SOFTWARE\DNP Photo Imaging America:System.UnauthorizedAccessException: ???????? ? ??????? ? ??????? ??????? "HKEY_LOCAL_MACHINE\SOFTWARE\DNP Photo Imaging America".
+   ? Microsoft.Win32.RegistryKey.Win32Error(Int32 errorCode, String str)
+   ? Microsoft.Win32.RegistryKey.CreateSubKeyInternal(String subkey, RegistryKeyPermissionCheck permissionCheck, Object registrySecurityObj, RegistryOptions registryOptions)
+   ? Microsoft.Win32.RegistryKey.CreateSubKey(String subkey, RegistryKeyPermissionCheck permissionCheck)
+   ? Microsoft.Win32.RegistryKey.CreateSubKey(String subkey)
+   ? HotFolderPrint.Commons.CommonsDirectory.Load()
+2016-02-02 13:56:16.0363 [1] INFO - Unable to load ColorScienceParams xml file:System.NullReferenceException: ?????? ?? ?????? ?? ????????? ?? ????????? ???????.
+   ? HotFolderPrint.Classes.ImageFilters.ColorScienceParams.Load()
+2016-02-02 13:56:16.8293 [1] INFO - Applying color science
+2016-02-02 13:56:16.9013 [5] INFO - Populating Printers
+2016-02-02 13:56:19.9018 [5] INFO - Populating Printers
+2016-02-02 13:56:22.9025 [5] INFO - Populating Printers
+2016-02-02 13:56:25.9035 [5] INFO - Populating Printers
+2016-02-02 13:56:28.9048 [5] INFO - Populating Printers
+2016-02-02 13:56:31.9052 [5] INFO - Populating Printers
+2016-02-02 13:56:34.9057 [5] INFO - Populating Printers
+2016-02-02 13:56:37.9070 [5] INFO - Populating Printers
+2016-02-02 13:56:40.9081 [5] INFO - Populating Printers
+2016-02-02 13:56:43.9088 [5] INFO - Populating Printers
+2016-02-02 13:56:46.9098 [5] INFO - Populating Printers
+2016-02-02 13:56:49.9108 [5] INFO - Populating Printers
+2016-02-02 13:56:52.9120 [5] INFO - Populating Printers
+2016-02-02 13:56:55.9125 [5] INFO - Populating Printers
+2016-02-02 13:56:58.9135 [5] INFO - Populating Printers
+2016-02-02 13:57:00.5392 [1] INFO - InputManager Initializing
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 10
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 40
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 100
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 680
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 690
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 120
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 130
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 1200
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 1210
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 1220
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 1300
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 1310
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 1320
+2016-02-02 13:57:00.5392 [1] WARN - Unable to locate PrintSize for: 1400
+2016-02-02 13:57:00.5625 [1] INFO - InputManager Initialized
+2016-02-02 13:57:00.5635 [1] INFO - InputManager Initializing
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 10
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 40
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 100
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 680
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 690
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 120
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 130
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 1200
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 1210
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 1220
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 1300
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 1310
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 1320
+2016-02-02 13:57:00.5635 [1] WARN - Unable to locate PrintSize for: 1400
+2016-02-02 13:57:00.5635 [1] INFO - InputManager Initialized
+2016-02-02 13:57:00.6061 [1] INFO - Applying color science
+2016-02-02 13:57:00.6181 [1] INFO - Applying color science
+2016-02-02 13:57:01.9145 [5] INFO - Populating Printers
+2016-02-02 13:57:04.9149 [5] INFO - Populating Printers
+2016-02-02 13:57:07.9153 [5] INFO - Populating Printers

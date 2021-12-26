@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?> 
+<data>
+	<ImageLoader name="025.png"  url="./cards/025.png" load="true"/>
+	<ImageLoader name="033.png"  url="./cards/033.png" load="true"/>
+	<ImageLoader name="027.png"  url="./cards/027.png" load="true"/>
+	<ImageLoader name="028.png"  url="./cards/028.png" load="true"/>
+	<ImageLoader name="010.png"  url="./cards/010.png" load="true"/>
+	<ImageLoader name="002.png"  url="./cards/002.png" load="true"/>
+	<ImageLoader name="003.png"  url="./cards/003.png" load="true"/>
+	<ImageLoader name="004.png"  url="./cards/004.png" load="true"/>
+	<ImageLoader name="029.png"  url="./cards/029.png" load="true"/>
+	<ImageLoader name="030.png"  url="./cards/030.png" load="true"/>
+	<ImageLoader name="031.png"  url="./cards/031.png" load="true"/>
+	<ImageLoader name="032.png"  url="./cards/032.png" load="true"/>
+	<ImageLoader name="013.png"  url="./cards/013.png" load="true"/>
+	<ImageLoader name="014.png"  url="./cards/014.png" load="true"/>
+	<ImageLoader name="015.png"  url="./cards/015.png" load="true"/>
+	<ImageLoader name="016.png"  url="./cards/016.png" load="true"/>
+	<ImageLoader name="017.png"  url="./cards/017.png" load="true"/>
+	<ImageLoader name="018.png"  url="./cards/018.png" load="true"/>
+	<ImageLoader name="019.png"  url="./cards/019.png" load="true"/>
+	<ImageLoader name="020.png"  url="./cards/020.png" load="true"/>
+	<ImageLoader name="007.png"  url="./cards/007.png" load="true"/>
+	<ImageLoader name="008.png"  url="./cards/008.png" load="true"/>
+	<ImageLoader name="009.png"  url="./cards/009.png" load="true"/>
+	<ImageLoader name="011.png"  url="./cards/011.png" load="true"/>
+	<ImageLoader name="012.png"  url="./cards/012.png" load="true"/>
+	<ImageLoader name="024.png"  url="./cards/024.png" load="true"/>
+</data>

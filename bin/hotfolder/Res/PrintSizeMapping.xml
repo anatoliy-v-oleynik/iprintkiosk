@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PrintSizeMapping>
+  <!-- 
+		Print Sizes:
+        CSP_L (5x3.5) = 1
+        CSP_2L (5x7) = 2
+        CSP_PC (6x4) = 3
+        CSP_A5 (6x8) = 4
+        CSP_A5W (6x9) = 5
+        CSP_PCx2 (6x4 x2) = 6
+        CSP_DSC (4.8x3.5) = 7 
+        CSP_Lx2 (4.8x7) = 8 
+        CSP_8X10 = 31
+        CSP_8X12 = 32
+        CSP_8X4 = 33
+        CSP_8X5 = 34
+        CSP_8X6 = 35
+        CSP_8X8 = 36
+        CSP_8X4x2 = 37
+        CSP_8X5x2 = 38
+        CSP_8X6x2 = 39
+        CSP_8X5_8X4 = 40
+        CSP_8X6_8X4 = 41
+        CSP_8X6_8X5 = 42
+        CSP_8X8_8X4 = 43
+        CSP_8X4x3 = 44
+  -->
+  <size id="10">
+    <!-- s3_5x5 -->
+    <paper id="1" mismatch="0" /> <!-- 3.5x5 media, cut at 3.5", default -->
+    <paper id="2" mismatch="7" /> <!-- 5x7 media, cut at 3.5", w/ multi-cut -->
+    <paper id="3" mismatch="1" /> <!-- 4x6 media, cut at 3.5" -->
+    <paper id="4" mismatch="7" /> <!-- 6x8 media, cut at 3.5", w/ multi-cut -->
+    <paper id="5" mismatch="7" /> <!-- 6x9 media, cut at 3.5", w/ multi-cut -->
+    <paper id="31" mismatch="7" /> <!-- 8x10 media, cut at 3.5", w/ multi-cut -->
+    <paper id="32" mismatch="7" /> <!-- 8x12 media, cut at 3.5", w/ multi-cut -->
+  </size>   
+  <size id="40">
+    <!-- s4x6 -->
+    <paper id="2" mismatch="0" /> <!-- 5x7 media, cut at 7"-->
+    <paper id="3" mismatch="0" /> <!-- 4x6 media, cut at 4", default -->
+    <paper id="4" mismatch="6" /> <!-- 6x8 media, cut at 4" w/ multi-cut -->
+    <paper id="5" mismatch="6" /> <!-- 6x9 media, cut at 4" w/ multi-cut -->
+    <paper id="31" mismatch="37" /> <!-- 8x10 media, cut at 4" w/ multi-cut -->
+    <paper id="32" mismatch="37" /> <!-- 8x12 media, cut at 4" w/ multi-cut -->
+  </size>
+  <size id="645">
+    <!-- s6x45 -->
+    <paper id="5" mismatch="13" /> <!-- 6x9 media, cut at 4.5" w/ multi-cut -->
+  </size>
+  <size id="100">
+    <!-- s5x7 -->
+    <paper id="2" mismatch="0" /> <!-- 5x7 media, cut at 7", default -->
+    <paper id="4" mismatch="2" /> <!-- 6x8 media, cut at 7" -->
+    <paper id="5" mismatch="2" /> <!-- 6x9 media, cut at 7" -->
+    <paper id="31" mismatch="38" /> <!-- 8x10 media, cut at 5" w/ multi-cut -->
+    <paper id="32" mismatch="38" /> <!-- 8x12 media, cut at 5" w/ multi-cut -->
+  </size>  
+  <size id="120">
+    <!-- s8x10 -->
+    <paper id="31" mismatch="0" /> <!-- 8x10 media, cut at 10", default -->
+    <paper id="32" mismatch="31" /> <!-- 8x12 media, cut at 10" -->
+  </size>
+  <size id="130">
+    <!-- s8x12 -->
+    <paper id="32" mismatch="0" /> <!-- 8x12 media, cut at 12", default -->
+  </size>
+  <size id="680">
+    <!-- s6x8 -->
+    <paper id="4" mismatch="0" /> <!-- 6x8 media, cut at 8", default -->
+    <paper id="5" mismatch="4" /> <!-- 6x9 media, cut at 8" -->
+    <paper id="31" mismatch="35" /> <!-- 8x10 media, cut at 6" -->
+    <paper id="32" mismatch="39" /> <!-- 8x12 media, cut at 6" w/ multi-cut -->
+  </size>
+  <size id="690">
+    <!-- s6x9 -->
+    <paper id="5" mismatch="0" /> <!-- 6x9 media, cut at 9", default -->
+    <paper id="31" mismatch="5" /> <!-- 8x10 media, cut at 9" -->
+    <paper id="32" mismatch="5" /> <!-- 8x12 media, cut at 9" -->
+  </size>
+  <size id="1200">
+    <!-- s8x10 duplex -->
+    <paper id="131" mismatch="0" />    
+  </size>
+  <size id="1210">
+    <!-- s8x10_50 duplex -->
+    <paper id="151" mismatch="0" />
+  </size>
+  <size id="1220">
+    <!-- s8x10_75 duplex -->
+    <paper id="152" mismatch="0" />
+  </size>
+  <size id="1300">
+    <!-- s8x12 Duplex -->
+    <paper id="132" mismatch="0" />
+  </size>
+  <size id="1310">
+    <!-- s8x4x3 Duplex -->
+    <paper id="153" mismatch="153" />
+  </size>
+  <size id="1320">
+    <!-- s4x4x2x3 Duplex -->
+    <paper id="153" mismatch="153" />
+  </size>
+  <size id="1400">
+    <!-- s8x6x2 Duplex -->
+    <paper id="139" mismatch="139" />
+  </size>
+</PrintSizeMapping>
