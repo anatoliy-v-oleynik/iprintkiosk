@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<project name="RIAFactory classes" basedir="..">
+	<!-- Local properties -->
+	<property name="lib.dir" value="${project.dir}\lib" />
+	<property name="source.dir" value="${project.dir}\src" />
+	<property name="output.dir" value="${project.dir}\bin" />
+	<property name="output.file" value="flash-lib.swc" />
+	<property name="output.asversion" value="10" />
+	<property name="namespace.uri" value="http://mynamespace" />
+	<property name="namespace.manifest.file" value="${project.dir}\manifest.xml" />
+	<!-- Build properties -->
+	<property name="compc.path" value="${FLEX_SDK}\bin\compc.exe" />
+	<property name="compc.args" value="-load-config '${project.dir}\~compc-config.xml'" />
+
+	<taskdef resource="flexTasks.tasks" classpath="${FLEX_SDK}/ant/libs/flexTasks.jar"/> 
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="${ant.library.dir}\ant-contrib-0.3.jar"/>
+		
+	<available property="swc.exists" file="${output.dir}\${output.file}"/>
+	
+	<target name="extract.swc.lib">
+	  <foreach target="extract.swc" param="file">
+		<fileset dir="${lib.dir}" casesensitive="yes">
+		  <include name="*.swc"/>
+		</fileset>
+	  </foreach>
+	</target>
+
+	<target name="main">
+		<antcall target="compile.swc" />
+	</target>
+
+	<target name="extract.swc">
+		<basename property="filename" file="${file}" suffix=".swc"/> 
+		<unzip src="${file}" dest="${output.dir}\rls">
+			<patternset>
+				<include name="library.swf" />
+			</patternset>
+			<globmapper from="library.swf" to="${filename}.swf" />
+		</unzip>		
+	</target>	
+	
+	<target name="delete.swc" if="swc.exists">
+        <delete file="${output.dir}\${output.file}" />
+    </target>	
+	
+	<target name="compile.swc">
+		<echo>Compiling library.</echo>
+		
+		<mkdir dir="${output.dir}\rls" />
+
+		<filter token="flex.sdk.dir" value="${FLEX_SDK}" />
+		<filter token="lib.dir" value="${lib.dir}" />
+		<filter token="source.dir" value="${source.dir}" />
+		<filter token="output.dir" value="${output.dir}" />
+		<filter token="output.file" value="${output.file}" />
+		<filter token="output.asversion" value="${output.asversion}" />
+		<filter token="namespace.uri" value="${namespace.uri}" />
+		<filter token="namespace.manifest.file" value="${namespace.manifest.file}" />
+		
+		<copy file="${project.dir}\compc-config.xml" tofile="${project.dir}\~compc-config.xml" filtering="true" />
+		
+		<exec executable="${compc.path}">
+			<arg line="${compc.args}" />
+		</exec>
+		
+		<delete file="${project.dir}\~compc-config.xml" />
+		
+		<echo>Success! Created ${output.dir}\${output.file}</echo> 
+	</target>
+		
+</project>

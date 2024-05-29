@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<flex-config>
+	<compiler>
+		<external-library-path append="true">
+			<path-element>@flex.sdk.dir@\frameworks\libs\player\20.0\playerglobal.swc</path-element>
+			<path-element>@flex.sdk.dir@\frameworks\libs</path-element>
+		</external-library-path>
+		
+		<library-path>
+			<path-element>@flex.sdk.dir@\frameworks\libs</path-element>
+			<path-element>@lib.dir@</path-element>
+		</library-path>
+		
+		<include-libraries>
+			<library>@flex.sdk.dir@\frameworks\libs</library> 
+			<library>@lib.dir@</library> 
+		</include-libraries> 
+		
+		<source-path append="true">
+			<path-element>@source.dir@</path-element>
+		</source-path>		
+		
+	</compiler>
+	
+	<output>@output.dir@/@output.file@</output>
+	
+	<include-sources>      
+			<path-element>@source.dir@</path-element>
+	</include-sources>
+	
+	<include-file> 
+		<name>arial.ttf</name> 
+		<path>@lib.dir@\arial.ttf</path> 
+	</include-file>
+	
+</flex-config>
